@@ -57,7 +57,7 @@ body {
   float: left;
   z-index: 0;
   margin: 127px 0 0 10%;
-  font: 2.5em/2 'Product Sans Bold';
+  font-size: 2.5em;
   color: rgb(255, 255, 255);
 }
 
