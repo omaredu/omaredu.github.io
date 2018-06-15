@@ -1,6 +1,6 @@
 
 .main-container-mobile {
-    margin: 2em 1em 0 1em;
+    margin: 1em 1em 0 1em;
     width: 90%;
 }
 
@@ -13,7 +13,6 @@
 
 .name-mobile {
     color: #FF0034;
-    margin-top: .7em;
     font-size: 2.5em;
     font-family: product-sans-bold;
 }
