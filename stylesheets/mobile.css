@@ -1,0 +1,64 @@
+
+.main-container-mobile {
+    margin: 2em 1em 0 1em;
+    width: 90%;
+}
+
+.profile-mobile {
+    padding: .2em;
+    border-radius: 50%;
+    border: solid 2px #FF0034;
+    height: 6.5em;
+}
+
+.name-mobile {
+    color: #FF0034;
+    margin-top: .7em;
+    font-size: 2.5em;
+    font-family: product-sans-bold;
+}
+
+.description-mobile {
+    font-size: 1.5em;
+    margin-top: 1em;
+}
+
+.caract {
+    font-size: 1.2em;
+    opacity: .5;
+    margin-top: .5em;
+}
+
+.caract i {
+    margin-right: .5em;
+}
+
+.footer-mobile {
+    position: absolute;
+    bottom: 2em;
+    width: 100%;
+}
+
+.footer-mobile p {
+    opacity: .5;
+}
+
+.footer-mobile ul{
+    display: flex;
+    list-style: none;
+    margin-left: -2.3em;
+    width: 45%;
+    margin: auto auto 1em auto; 
+}
+
+.footer-mobile ul li{
+    color: #212121;
+    opacity: .5;
+    font-size: 1.3em;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.footer-mobile ul li:hover{
+    opacity: 1;
+}

@@ -1,0 +1,33 @@
+
+.footer {
+    position: absolute;
+    bottom: 10vh;
+    left: 10vh;
+    right: 11vh;
+}
+
+.footer ul {
+    list-style: none;
+    display: inline-flex;
+    float: left;
+}
+
+.footer ul li i {
+    font-size: 1.5em;
+    color: #212121;
+}
+
+.footer ul li {
+    opacity: .5;
+    margin-left: 1em;
+}
+
+.footer ul li:hover {
+    opacity: 1;
+}
+
+.footer p {
+    opacity: .5;
+    font-size: 1.1em;
+    float: right;
+}
