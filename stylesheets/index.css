@@ -62,7 +62,15 @@
 .ul-projects a li {
     border-bottom: solid 2px transparent;
     margin-right: 1.5em;
-    padding-bottom: 2em;
+    font-size: 1.2em;
+    padding-bottom: 1.5em;
+}
+
+.ul-projects li {
+    border-bottom: solid 2px transparent;
+    margin-right: 1.5em;
+    font-size: 1.2em;
+    padding-bottom: 1.5em;
 }
 
 .tempo:hover {
