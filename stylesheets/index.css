@@ -45,3 +45,30 @@
     margin-top: -15em;
     border: solid 2px #FF0034;
 }
+
+.ul-projects {
+    position: absolute;
+    bottom: 30vh;
+    left: 10%;
+    list-style: none;
+    display: flex;
+}
+
+.ul-projects a {
+    color: #212121;
+    text-decoration: none;
+}
+
+.ul-projects a li {
+    border-bottom: solid 2px transparent;
+    margin-right: 1.5em;
+    padding-bottom: 2em;
+}
+
+.tempo:hover {
+    border-bottom: solid 2px #00C3FF;
+}
+
+.tempojs:hover {
+    border-bottom: solid 2px #ffd900;
+}
