@@ -14,11 +14,16 @@
         },
         {
             "id": "title",
-            "content": "Diseñador Web"
+            "content": "Desarrollador"
         },
         {
             "id": "contacter",
             "content": "Contáctame!"
+        }
+        ,
+        {
+            "id": "myProjects",
+            "content": "Mis <strong>Proyectos</strong>"
         }
     ],
 
@@ -37,11 +42,15 @@
         },
         {
             "id": "title",
-            "content": "Web Designer"
+            "content": "Developer"
         },
         {
             "id": "contacter",
             "content": "Contact Me!"
+        },
+        {
+            "id": "myProjects",
+            "content": "My <strong>Projects</strong>"
         }
     ]
 }

@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="anim/animate.css">
+    <script src="https://kit.fontawesome.com/6023f3e192.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script src="js/main.js"></script>
     <title>Omaredu</title>
 </head>
@@ -41,10 +43,26 @@
             <a href="#" class="button"><p id="contacter">Contactar</p></a>
         </div>
     </div>
+    <div class="profiler"></div>
 
-    <div class="proyectos">
-        <p class="proyectos">Mis Proyectos</p>
-    </div>
+    <p class="subTitle" id="myProjects">Mis <strong>Proyectos</strong></p>
+    
+    <center>
+        <div class="proyectos grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
+            <script>
+                var projects = JSON.parse(localStorage.getItem('projects'))
+                projects.map( project => {
+                    document.write(`
+                    <div onClick="openOtherTab('${project.url}')" class="project grid-item" style="background: linear-gradient(45deg, ${project.colorOne}, ${project.colorTwo});">
+                        <img src="${project.picture}" alt="Omaredu">
+                        <div>${project.name}</div>
+                        <i class=" linkTo fas fa-long-arrow-alt-right"></i>
+                    </div>
+                    `);
+                })
+            </script>
+        </div>
+    </center>
 
 </body>
 </html>

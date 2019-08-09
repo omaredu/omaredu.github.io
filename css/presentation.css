@@ -21,6 +21,7 @@
 .button {
     text-decoration: none;
     width: 10em;
+    cursor: default;
 }
 
 .button p {
@@ -40,9 +41,14 @@
     text-align: center;
 
     transition: color .3s;
+    cursor: pointer;
 }
 
 .button p:hover {
     background: linear-gradient(45deg, #F8054D, #D336FF);
     color: white;
+}
+
+.profiler {
+    height: 75vh;
 }

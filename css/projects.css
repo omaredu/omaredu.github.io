@@ -1,0 +1,70 @@
+
+.project {
+    overflow: hidden;
+    height: 20em;
+    width: 35em;
+    margin: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+
+    transition: box-shadow .3s;
+}
+
+.proyectos {
+    width: 65%;
+}
+
+.project img {
+    height: 35%;
+    margin-top: 16%;
+}
+
+.project div {
+    margin: 2.2em;
+    padding: 1em;
+    position: absolute;
+    background-color: white;
+    float: left;
+    color: #212121;
+    border-radius: 5px;
+}
+
+.project:hover .linkTo {
+    opacity: .7;
+    animation-duration: .3s;
+    animation-name: link;
+}
+
+.project:hover {
+    box-shadow: 0 0 1.5em rgba(0,0,0,0.15)
+}
+
+.linkTo {
+    color: white;
+    font-size: 1.5em;
+    position: absolute;
+    right: 2em;
+    bottom: 1.7em;
+    opacity: 0;
+
+    transition: .1s;
+}
+
+@keyframes link {
+    from {
+        right: 2.5em;
+        bottom: 1.7em;
+        opacity: 0;
+    }
+    to {
+        right: 2em;
+        bottom: 1.7em;
+        opacity: .7;
+    }
+}
+
+.subTitle {
+    text-align: right;
+    padding: 2em 25% 2em 1em;
+    font-size: 1.5em;
+}

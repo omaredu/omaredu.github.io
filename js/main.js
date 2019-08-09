@@ -1,8 +1,8 @@
 
-lang = "spanish";
+lang = "english"
 
-function fetchLang() {
-    return fetch("/lang/langs.json")
+function fetchJson(url) {
+    return fetch(url)
     .then(function (response) {
         return response.json()
     }).then(function (json) {
@@ -10,7 +10,7 @@ function fetchLang() {
     })
 }
 
-fetchLang().then(result => {setLang(result)})
+fetchJson("../lang/langs.json").then(result => {setLang(result)})
 
 function setLang(post) {
     switch (lang) {
@@ -32,4 +32,27 @@ function showLang(data) {
         }
     })
     
+}
+
+fetchJson("../proj/projects.json").then(result => {showProjects(result.projects)})
+
+function showProjects(data) {
+    localStorage.setItem('projects', JSON.stringify(data));
+}
+
+
+var grid = document.querySelector('.grid');
+var msnry = new Masonry(grid, {
+    // options...
+    itemSelector: '.grid-item',
+    columnWidth: 200
+});
+
+// init with selector
+var msnry = new Masonry('.grid', {
+    // options...
+});
+
+function openOtherTab(url) {
+    window.open(url, '_blank')
 }
