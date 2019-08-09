@@ -1,0 +1,9 @@
+{
+    "spanish" : {
+        "home" : "hola mundo"
+    },
+
+    "english" : {
+        "home" : "hello world"
+    }
+}
