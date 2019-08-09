@@ -27,11 +27,12 @@
     display: flex;
     list-style: none;
     float: right;
-    margin: 2em;
+    margin: 2.15em;
 }
 
 .header ul li {
-    margin: 0 1em 0 1em;
+    margin: 0 1.5em 0 1.5em;
+    font-size: .85em;
 }
 
 .header-deco {

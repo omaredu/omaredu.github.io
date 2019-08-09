@@ -1,9 +1,5 @@
 
-var lang = []
-
-function showLang() {
-    
-}
+lang = "english";
 
 function fetchLang() {
     return fetch("/lang/langs.json")
@@ -17,5 +13,25 @@ function fetchLang() {
 fetchLang().then(result => {setLang(result)})
 
 function setLang(post) {
-    lang = post
+    switch (lang) {
+        case "spanish":
+            showLang(post.spanish)
+            break
+        case "english":
+            showLang(post.english)
+            break
+    }
+}
+
+function showLang(data) {
+    console.log(data[0].content)
+
+    data.map( value => { 
+        try {
+            document.getElementById(value.id).innerHTML = value.content
+        } catch (error) {
+            console.log(error)
+        }
+    })
+    
 }
