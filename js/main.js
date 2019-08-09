@@ -1,5 +1,5 @@
 
-lang = "english";
+lang = "spanish";
 
 function fetchLang() {
     return fetch("/lang/langs.json")
@@ -24,8 +24,6 @@ function setLang(post) {
 }
 
 function showLang(data) {
-    console.log(data[0].content)
-
     data.map( value => { 
         try {
             document.getElementById(value.id).innerHTML = value.content
