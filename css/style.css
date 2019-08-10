@@ -2,6 +2,7 @@
 
 @import url('./presentation.css');
 @import url('./projects.css');
+@import url('./responsive.css');
 
 * {
     padding: 0;
@@ -40,9 +41,19 @@
 .header-deco {
     width: 100%;
     height: 4px;
-    background: linear-gradient(45deg, #F8054D, #D336FF);
     z-index: 10;
     position: fixed;
+    background: linear-gradient(45deg, #F8054D, #D336FF);
+}
+
+@keyframes header-deco {
+    from {
+        background: linear-gradient(45deg, #F8054D, #D336FF);
+    }
+    to {
+        background: linear-gradient(45deg, #D336FF, #F8054D);
+        animation-name: header-deco;
+    }
 }
 
 .separator {

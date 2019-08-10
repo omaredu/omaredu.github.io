@@ -46,23 +46,24 @@
     <div class="profiler"></div>
 
     <p class="subTitle" id="myProjects">Mis <strong>Proyectos</strong></p>
-    
-    <center>
-        <div class="proyectos grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
-            <script>
-                var projects = JSON.parse(localStorage.getItem('projects'))
-                projects.map( project => {
-                    document.write(`
-                    <div onClick="openOtherTab('${project.url}')" class="project grid-item" style="background: linear-gradient(45deg, ${project.colorOne}, ${project.colorTwo});">
-                        <img src="${project.picture}" alt="Omaredu">
-                        <div>${project.name}</div>
-                        <i class=" linkTo fas fa-long-arrow-alt-right"></i>
-                    </div>
-                    `);
-                })
-            </script>
-        </div>
-    </center>
+
+    <div class="proyectos grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
+        <script>
+            var projects = JSON.parse(localStorage.getItem('projects'))
+            projects.map( project => {
+                document.write(`
+                <center>
+                <div onClick="openOtherTab('${project.url}')" class="project grid-item" style="background: linear-gradient(45deg, ${project.colorOne}, ${project.colorTwo});">
+                    <img src="${project.picture}" alt="Omaredu">
+                    <div>${project.name}</div>
+                    <i class=" linkTo fas fa-long-arrow-alt-right"></i>
+                </div>
+                </center>
+                `);
+            })
+        </script>
+    </div>
+
 
 </body>
 </html>
