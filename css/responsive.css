@@ -25,3 +25,25 @@
     margin-left: auto;
     margin-right: auto;
 }
+
+@media (max-width: 700px) {
+    .proyectos {
+        margin-left: -5%;
+    }
+}
+
+@media (max-width: 850px) {
+    .proyectos {
+        margin-left: 8%;
+    }
+}
+
+@media (max-width: 750px) {
+    .proyectos {
+        margin-left: -5%;
+    }
+
+    .presentation {
+        margin-top: 39em;
+    }
+}
