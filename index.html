@@ -9,6 +9,7 @@
     <script src="https://kit.fontawesome.com/6023f3e192.js"></script>
     <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
     <script src="js/main.js"></script>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <title>Omaredu</title>
 </head>
 <body>
@@ -49,6 +50,13 @@
 
     <div class="proyectos grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
         <script>
+            
+            fetchJson("../proj/projects.json").then(result => { showProjects(result.projects) })
+
+            function showProjects(data) {
+                localStorage.setItem('projects', JSON.stringify(data));
+            }
+
             var projects = JSON.parse(localStorage.getItem('projects'))
             projects.map( project => {
                 document.write(`

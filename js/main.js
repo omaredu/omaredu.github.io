@@ -34,12 +34,6 @@ function showLang(data) {
     
 }
 
-fetchJson("../proj/projects.json").then(result => {showProjects(result.projects)})
-
-function showProjects(data) {
-    localStorage.setItem('projects', JSON.stringify(data));
-}
-
 
 var grid = document.querySelector('.grid');
 var msnry = new Masonry(grid, {
