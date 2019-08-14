@@ -1,6 +1,10 @@
 
 lang = "english"
 
+window.onload = () => {
+    fetchJson("../proj/projects.json").then(result => { showProjects(result.projects) })
+}
+
 function fetchJson(url) {
     return fetch(url)
     .then(function (response) {
@@ -32,6 +36,10 @@ function showLang(data) {
         }
     })
     
+}
+
+function showProjects(data) {
+    localStorage.setItem('projects', JSON.stringify(data));
 }
 
 
