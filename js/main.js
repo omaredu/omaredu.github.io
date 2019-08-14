@@ -1,7 +1,7 @@
 
 lang = "english"
 
-window.onload = () => {
+function cargando() {
     fetchJson("../proj/projects.json").then(result => { showProjects(result.projects) })
 }
 
