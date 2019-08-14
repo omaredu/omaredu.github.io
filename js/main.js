@@ -1,9 +1,7 @@
 
 lang = "english"
 
-function cargando() {
-    fetchJson("../proj/projects.json").then(result => { showProjects(result.projects) })
-}
+fetchJson("../proj/projects.json").then(result => { showProjects(result.projects) })
 
 function fetchJson(url) {
     return fetch(url)
@@ -39,7 +37,11 @@ function showLang(data) {
 }
 
 function showProjects(data) {
-    localStorage.setItem('projects', JSON.stringify(data));
+    localStorage.setItem('projects', JSON.stringify(data))
+}
+
+if (!(localStorage.getItem('projects'))) {
+    location.reload()
 }
 
 
