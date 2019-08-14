@@ -50,8 +50,10 @@
 
     <div class="proyectos grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 }'>
         <script>
-            
-            fetchJson("../proj/projects.json").then(result => { showProjects(result.projects) })
+
+            setTimeout(() => {
+                fetchJson("../proj/projects.json").then(result => { showProjects(result.projects) })  
+            }, 500)
 
             function showProjects(data) {
                 localStorage.setItem('projects', JSON.stringify(data));
