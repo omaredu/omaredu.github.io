@@ -27,6 +27,13 @@
             "url": "https://omaredu.gamejolt.io/shot",
             "colorOne": "#23232d",
             "colorTwo": "#3c3c5f"
+        },
+        {
+            "name": "Stoker Studio",
+            "picture": "/proj/stoker.svg",
+            "url": "#",
+            "colorOne": "#ff7246",
+            "colorTwo": "#ff068b"
         }
     ]
 }
