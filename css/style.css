@@ -125,3 +125,14 @@
     width: 60%;
     padding: 0 20% 0 20%;
 }
+
+.footer {
+    margin-top: 5em;
+}
+
+.footer p {
+    width: 100%;
+    text-align: center;
+    padding: 5em 0 5em 0;
+    color: #00000050;
+}
