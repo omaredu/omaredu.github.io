@@ -8,23 +8,7 @@
                 "url": "https://i.imgur.com/pY2S6oM.png"
             }
         ],
-    "tags": "jesucristo"
-    },
-    {
-    "id": 2,
-    "title": "Hola Mundo",
-    "content": "mi primera entrada del blog solo que esto es una prueb pequeña para ver si funciona todo esto y que no se salga de control la situación",
-    "tags": "diario"
-    },
-    {
-    "id": 3,
-    "title": "Yeah Mundo",
-    "content": "mi primera entrada del blog solo que esto es una prueb pequeña para ver si funciona todo esto y que no se salga de control la situación",
-    "images": [
-            {
-                "url": "https://i.imgur.com/wxQeicK.png"
-            }
-        ],
-    "tags": "alo"
+    "tags": "jesucristo",
+    "date": "Sat Sep 07 2019"
     }
 ]
