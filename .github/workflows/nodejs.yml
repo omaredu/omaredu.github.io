@@ -21,7 +21,7 @@ jobs:
       run: |
         npm ci
         npm install yarn
-        npm install
-        npm start
+        yarn install
+        yarn start
       env:
         CI: true
