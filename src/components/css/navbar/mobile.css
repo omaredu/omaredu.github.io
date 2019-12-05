@@ -1,0 +1,39 @@
+.mobile-menu-icon {
+    height: 1.5em;
+    float: right;
+    margin: 1.5em 0;
+    opacity: .25;
+}
+
+.mobile-selected {
+    float: left;
+    display: flex;
+    align-items: center;
+    height: 2.5em;
+}
+
+.menu-mobile {
+    padding: .5em 10%;
+    height: 4.5em;
+}
+
+/* context options */
+
+.mobile-context {
+    border-bottom: 1px solid #ececec;
+    margin-bottom: 1.5em;
+}
+
+.mobile-context-options {
+    list-style: none;
+}
+
+.mobile-context-options>li {
+    padding: 1.5em 0;
+}
+
+.mobile-context-options>li>a {
+    text-decoration: none;
+    color: black;
+    opacity: .5;
+}

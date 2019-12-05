@@ -1,0 +1,117 @@
+{
+    "projects" : [
+        {
+            "name" : "Gradienta",
+            "picture" : "/proj/gradienta.svg",
+            "url" : "http://gradienta.herokuapp.com",
+            "colorOne" : "#7F00FF",
+            "colorTwo" : "#E100FF",
+            "overviewImage": "https://static.platzi.com/media/porfilio/anotacion-2019-07-10-173822_87f6ee53-f122-48bc-9fc5-435534998b03.png",
+            "markdown": "/proj/markdown/gradienta.md",
+            "links": [
+                {
+                    "label": "github",
+                    "url": "https://github.com/omaredu/gradienta"
+                },
+                {
+                    "label": "project",
+                    "url": "https://gradienta.herokuapp.com"
+                }
+            ]
+        },
+        {
+            "name": "Tempo",
+            "picture": "/proj/tempo.svg",
+            "url": "https://omaredu.github.io/Tempo/",
+            "colorOne": "#2196F3",
+            "colorTwo": "#00BCD4",
+            "overviewImage": "https://static.platzi.com/media/porfilio/anotacion-2019-07-10-173822_87f6ee53-f122-48bc-9fc5-435534998b03.png",
+            "markdown": "/proj/markdown/gradienta.md",
+            "links": [
+                {
+                    "label": "github",
+                    "url": "https://github.com/omaredu/Tempo"
+                },
+                {
+                    "label": "project",
+                    "url": "https://omaredu.github.io/Tempo"
+                }
+            ]
+        },
+        {
+            "name": "Inspira",
+            "picture": "/proj/inspira.svg",
+            "url": "https://github.com/Omaredu/inspira",
+            "colorOne": "#03a9f4",
+            "colorTwo": "#3f51b5",
+            "overviewImage": "https://static.platzi.com/media/porfilio/anotacion-2019-07-10-173822_87f6ee53-f122-48bc-9fc5-435534998b03.png",
+            "markdown": "/proj/markdown/gradienta.md",
+            "links": [
+                {
+                    "label": "github",
+                    "url": "#"
+                },
+                {
+                    "label": "project",
+                    "url": "#"
+                }
+            ]
+        },
+        {
+            "name": "Shot",
+            "picture": "/proj/shot.svg",
+            "url": "https://omaredu.gamejolt.io/shot",
+            "colorOne": "#23232d",
+            "colorTwo": "#3c3c5f",
+            "overviewImage": "https://m.gjcdn.net/fireside-post-image/700/1671109-evgckyfb-v4.jpg",
+            "markdown": "/proj/markdown/gradienta.md",
+            "theme": "dark",
+            "links": [
+                {
+                    "label": "Gamejolt",
+                    "url": "https://omaredu.gamejolt.io/shot"
+                }
+            ]
+        },
+        {
+            "name": "Stoker Studio",
+            "picture": "/proj/stoker.svg",
+            "url": "#",
+            "colorOne": "#ff7246",
+            "colorTwo": "#ff068b",
+            "overviewImage": "https://static.platzi.com/media/porfilio/anotacion-2019-07-10-173822_87f6ee53-f122-48bc-9fc5-435534998b03.png",
+            "markdown": "/proj/markdown/gradienta.md",
+            "links": [
+                {
+                    "label": "github",
+                    "url": "#"
+                },
+                {
+                    "label": "project",
+                    "url": "#"
+                }
+            ]
+        }
+    ],
+    "prox" : [
+        {
+            "name": "Stoker Studio",
+            "picture": "/proj/stoker.svg",
+            "url": "#",
+            "colorOne": "#ff7246",
+            "colorTwo": "#ff068b",
+            "overviewImage": "https://static.platzi.com/media/porfilio/anotacion-2019-07-10-173822_87f6ee53-f122-48bc-9fc5-435534998b03.png",
+            "markdown": "/proj/markdown/gradienta.md",
+            "links": [
+                {
+                    "label": "github",
+                    "url": "#"
+                },
+                {
+                    "label": "project",
+                    "url": "#"
+                }
+            ]
+        }
+    ]
+}

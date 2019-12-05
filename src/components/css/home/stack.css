@@ -1,0 +1,33 @@
+.tech-stack {
+    display: flex;
+    list-style: none;
+    justify-content:center;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.tech-stack>li {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: .35;
+    padding: 1em 0;
+    flex-grow: 1;
+    min-width: 20%;
+}
+
+.tech-stack>li>svg {
+    color: #3b3b3b;
+    height: 3em;
+}
+
+.tech-stack>li>p {
+    color: #3b3b3b;
+}
+
+@media (max-width: 850px){
+    .tech-stack>li {
+        min-width: 50%;
+    }
+}
