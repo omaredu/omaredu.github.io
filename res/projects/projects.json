@@ -1,0 +1,44 @@
+{
+    "projects": [
+        {
+            "icon": "tempo.svg",
+            "name": "Tempo",
+            "description": "An open source app to check the weather.",
+            "background": "#00c3ff",
+            "links": [
+                {
+                    "type": "web",
+                    "url": "http://omaredu.github.io/Tempo"
+                },
+                {
+                    "type": "github",
+                    "url": "https://www.github.com/omaredu/Tempo"
+                }
+            ]
+        },
+        {
+            "icon": "pew.svg",
+            "name": "Pew by Omaredu",
+            "description": "A Space Invaders like game made in 3 days for simple game jam 4.",
+            "background": "#000411",
+            "links": [
+                {
+                    "type": "itch",
+                    "url": "https://omaredu.itch.io/pew-by-omaredu"
+                }
+            ]
+        },
+        {
+            "icon": "gradienta.svg",
+            "name": "Gradienta",
+            "description": "A small web project to create, see and share gradients with everyone.",
+            "background": "#a700ff",
+            "links": [
+                {
+                    "type": "web",
+                    "url": "http://gradienta.herokuapp.com/"
+                }
+            ]
+        }
+    ]
+}

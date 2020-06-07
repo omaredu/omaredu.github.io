@@ -1,1 +1,89 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#F8054D"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="logo192.png"/><link rel="manifest" href="/manifest.json"/><title>Omaredu</title><link href="/static/css/main.1d056fdb.chunk.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script>!function(f){function e(e){for(var r,t,n=e[0],o=e[1],u=e[2],l=0,a=[];l<n.length;l++)t=n[l],Object.prototype.hasOwnProperty.call(p,t)&&p[t]&&a.push(p[t][0]),p[t]=0;for(r in o)Object.prototype.hasOwnProperty.call(o,r)&&(f[r]=o[r]);for(s&&s(e);a.length;)a.shift()();return c.push.apply(c,u||[]),i()}function i(){for(var e,r=0;r<c.length;r++){for(var t=c[r],n=!0,o=1;o<t.length;o++){var u=t[o];0!==p[u]&&(n=!1)}n&&(c.splice(r--,1),e=l(l.s=t[0]))}return e}var t={},p={1:0},c=[];function l(e){if(t[e])return t[e].exports;var r=t[e]={i:e,l:!1,exports:{}};return f[e].call(r.exports,r,r.exports,l),r.l=!0,r.exports}l.m=f,l.c=t,l.d=function(e,r,t){l.o(e,r)||Object.defineProperty(e,r,{enumerable:!0,get:t})},l.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},l.t=function(r,e){if(1&e&&(r=l(r)),8&e)return r;if(4&e&&"object"==typeof r&&r&&r.__esModule)return r;var t=Object.create(null);if(l.r(t),Object.defineProperty(t,"default",{enumerable:!0,value:r}),2&e&&"string"!=typeof r)for(var n in r)l.d(t,n,function(e){return r[e]}.bind(null,n));return t},l.n=function(e){var r=e&&e.__esModule?function(){return e.default}:function(){return e};return l.d(r,"a",r),r},l.o=function(e,r){return Object.prototype.hasOwnProperty.call(e,r)},l.p="/";var r=this.webpackJsonpomaredu=this.webpackJsonpomaredu||[],n=r.push.bind(r);r.push=e,r=r.slice();for(var o=0;o<r.length;o++)e(r[o]);var s=n;i()}([])</script><script src="/static/js/2.e930f79f.chunk.js"></script><script src="/static/js/main.23ebcef7.chunk.js"></script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Omaredu - Developer & Designer</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' href='css/main.css'>
+    <script src="https://kit.fontawesome.com/6023f3e192.js" crossorigin="anonymous"></script>
+    <script src='main.js'></script>
+    <!-- <meta name="description" content="Hi! I am Omaredu, a developer and designer who loves all kinds of technologies and how they can be applied in everyday life."> -->
+    <meta name="description" content="JavaScript Designer and Developer Full Stack, ready to make your project stand out from the rest.">
+    <meta name="keywords" content="Omaredu, Portfolio, JavaScript, FullStack, Developer, Designer, Twitter, Dribbble, GitHub, Omar, Eduardo, Sánchez, Ramos">
+    <meta name="author" content="Omaredu">
+    <meta name="theme-color" content="#f8054d">
+</head>
+<body>
+    <!-- main profile info -->
+    <div id="main-view">
+        <div>
+            <div id="profile">
+                <img src="res/profile.jpg" ref="omaredu profile" />
+                <div id="profile-info">
+                    <p id="name">Omaredu.</p>
+                    <p id="description">Developer & Designer</p>
+                </div>
+            </div>
+            <div class="social">
+                <a href="https://dribbble.com/Omaredu" target="_blank"><i class="fab fa-dribbble"></i></a>
+                <a href="https://twitter.com/@omaredumx" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://github.com/Omaredu" target="_blank"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- header -->
+    <div id="dummy-header"></div>
+    <div id="header">
+        <ul>
+            <li id="home-option" class="header-selected" onclick="navigateClick(0)">Home</li>
+            <li id="portfolio-option" class="header-unselected" onclick="navigateClick(1)">Portfolio</li>
+            <li id="contact-option" class="header-unselected" onclick="navigateClick(2)">Contact</li>
+        </ul>
+        <i class="fa fa-hamburger menu-bars" onclick="toggleMenu()"></i>
+        <div class="mobile-menu" id="mobile-menu">
+            <ul>
+                <li onclick="navigateClick(0)">Home</li>
+                <li onclick="navigateClick(1)">Portfolio</li>
+                <li onclick="navigateClick(2)">Contact</li>
+            </ul>
+        </div>
+    </div>
+    <div id="portfolio-section" class="section">
+        <p class="section-title">Portfolio</p>
+        <p class="section-description">Look what i have worked on...</p>
+    </div>
+    <!-- Project grid -->
+    <div class="project-grid">
+        <ul id="projects-list">
+            <!-- <li>
+                <div class="project">
+                    <img src="res/projects/tempo.svg" style="background-color: #40bad5" rel="tempo"/>
+                    <p class="project-title">Tempo</p>
+                    <p class="project-description">An open source app to check the weather.</p>
+                    <div class="project-links">
+                        <a href="#" class="playstore" target="_blank"><p>Play Store</p></a>
+                        <a href="#" class="github" target="_blank"><p>GitHub</p></a>
+                        <a href="#" class="web" target="_blank"><p>Website</p></a>
+                    </div>
+                </div>
+            </li> -->
+        </ul>
+    </div>
+    <div id="contact-section" class="section">
+        <p class="section-title">Contact</p>
+        <p class="section-description">We could have an interesting conversation</p>
+    </div>
+    <!-- Contact view -->
+    <div class="contact-container">
+        <p class="contact-text">You can always send me an email and I will reply as soon as possible.</p>
+        <a class="contact-email" href="mailto:omaredu.02@gmail.com">omaredu.02@gmail.com</a>
+    </div>
+    <!-- Footer -->
+    <div class="footer">
+        <p class="i-love">Made with <i class="fa fa-heart" style="color: #f8054d;"></i> in Latam by Omaredu.</p>
+        <p class="footer-powered">This site uses Fontawesome & Google Fonts.</p>
+    </div>
+</body>
+<script src="js/main.js"></script>
+</html>
