@@ -39,6 +39,22 @@
                     "url": "http://gradienta.herokuapp.com/"
                 }
             ]
+        },
+        {
+            "icon": "typedex.svg",
+            "name": "TypeDex",
+            "description": "A simple open source Pokedex webpage written in Typescript & ReactJS.",
+            "background": "#ff0053",
+            "links": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/Omaredu/TypeDex"
+                },
+                {
+                    "type": "web",
+                    "url": "https://typedex.surge.sh/"
+                }
+            ]
         }
     ]
 }
