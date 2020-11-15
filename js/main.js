@@ -55,6 +55,9 @@ function checkButtonType(type) {
         case "itch":
             return "Itch.io"
             break
+        case "devpost":
+            return "Devpost"
+            break
     }
 }
     

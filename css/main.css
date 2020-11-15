@@ -173,6 +173,11 @@ html {
     background-color: #212121;
 }
 
+.project-links>.devpost {
+    color: white;
+    background-color: #003e54;
+}
+
 .project-links>.playstore {
     background-color: transparent;
     color: #0779e4;

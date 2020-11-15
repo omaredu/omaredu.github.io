@@ -55,6 +55,26 @@
                     "url": "https://typedex.surge.sh/"
                 }
             ]
+        },
+        {
+            "icon": "sierra.svg",
+            "name": "Pine",
+            "description": "A distribution network optimization & quoter application made in 36 hours for the hackathon deacero 2020.",
+            "background": "#ff9900",
+            "links": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/Omaredu/Pine"
+                },
+                {
+                    "type": "web",
+                    "url": "https://sierra-pine.surge.sh/"
+                },
+                {
+                    "type": "devpost",
+                    "url": "https://devpost.com/software/pine-mq0of1"
+                }
+            ]
         }
     ]
 }
