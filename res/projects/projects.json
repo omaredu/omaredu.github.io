@@ -19,6 +19,7 @@
         {
             "icon": "pew.svg",
             "name": "Pew by Omaredu",
+            "winner": "Simple Game Jam 4",
             "description": "A Space Invaders like game made in 3 days for simple game jam 4.",
             "background": "#000411",
             "links": [
