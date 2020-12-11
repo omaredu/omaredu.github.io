@@ -73,8 +73,11 @@ async function listProjects() {
     await projects.map(project => {
         actualProject = `
         <li>
-        <div class="project">
+        <div class="project ${project.big ? "big-image" : ""} ${project.winner ? "winner" : ""}">
         <img src="res/projects/${project.icon}" style="background-color: ${project.background + ";" + project.style}" rel="tempo"/>
+        <div class="winner-banner">
+            <p><i class="fa fa-crown" style="color: #fff; margin: 0 .4em"></i> Winner at ${project.winner}</p>
+        </div>
         <p class="project-title">${project.name}</p>
         <p class="project-description">${project.description}</p>
         <div class="project-links">

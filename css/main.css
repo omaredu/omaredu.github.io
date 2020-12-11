@@ -153,6 +153,28 @@ html {
     padding: 8em 0;
 }
 
+.project>.winner-banner {
+    display: none;
+}
+
+.big-image>img {
+    height: 14em;
+    background-color: #212121;
+    width: 100%;
+    padding: 5em 0;
+}
+
+.winner>.winner-banner {
+    display: block;
+    margin-top: -4em;
+    margin-bottom: 1.9em;
+    width: fit-content;
+    background: linear-gradient( 45deg,  #ffa600, #ff9d4c);
+    border-radius: 2px;
+    color: white;
+    padding: .5em 2em;
+}
+
 .project>.project-links {
     margin-top: 3em;
     margin-bottom: 2em;

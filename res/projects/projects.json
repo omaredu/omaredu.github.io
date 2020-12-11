@@ -75,6 +75,36 @@
                     "url": "https://devpost.com/software/pine-mq0of1"
                 }
             ]
+        },
+        {
+            "icon": "pcf.svg",
+            "big": true,
+            "name": "Penguins can fly",
+            "description": "A cool game created in two days for the indie game jam, which is about a penguin with a jetpack that kills space sea animals.",
+            "background": "#1F0F2B",
+            "links": [
+                {
+                    "type": "itch",
+                    "url": "https://dorado5115.itch.io/penguins-can-fly"
+                }
+            ]
+        },
+        {
+            "icon": "reclass_white.svg",
+            "name": "Reclass",
+            "winner": "HackTable2020",
+            "description": "It creates a virtual world in which you can learn online in an interactive 3D classroom, like playing a video game but you are learning with your teachers! just like a Zoom Class but with more interactiveness.",
+            "background": "#00A2FF",
+            "links": [
+                {
+                    "type": "devpost",
+                    "url": "https://devpost.com/software/reclass"
+                },
+                {
+                    "type": "github",
+                    "url": "https://github.com/Omaredu/reclass"
+                }
+            ]
         }
     ]
 }
