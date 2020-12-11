@@ -170,6 +170,7 @@ html {
     margin-bottom: 1.9em;
     width: fit-content;
     background: linear-gradient( 45deg,  #ffa600, #ff9d4c);
+    text-align: center;
     border-radius: 2px;
     color: white;
     padding: .5em 2em;
@@ -293,6 +294,16 @@ html {
     .project-grid>ul>li {
         flex: 1 0 50%;
         max-width: 50%;
+    }
+
+    .winner {
+        overflow: hidden;
+    }
+
+    .winner>.winner-banner {
+        margin-top: 0;
+        width: 100%;
+        border-radius: 0;
     }
 }
 
