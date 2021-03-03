@@ -21,6 +21,7 @@ html {
     align-items: center;
     justify-content: center;
     width: 100%;
+    z-index: 100;
 }
 
 #header>ul {
@@ -32,6 +33,8 @@ html {
     padding: 1.7em 0;
     margin: 0 2em;
     cursor: pointer;
+    transition: border .3s;
+    transition: color .2s;
 }
 
 #main-view {
@@ -44,6 +47,11 @@ html {
 
 .header-selected {
     border-bottom: 2px solid #f8054d;
+    color: black;
+}
+
+.header-unselected {
+    color: #b3b3b3;
 }
 
 .social {
@@ -102,8 +110,8 @@ html {
 .section>.section-title {
     color: white;
     background-color: #f8054d;
-    border-radius: 2px;
-    padding: 15px;
+    border-radius: 5px;
+    padding: 15px 30px;
 }
 
 .section>.section-description {
@@ -150,6 +158,10 @@ html {
     height: 8em;
     background-color: #212121;
     width: 100%;
+
+    border-radius: 5px;
+    transform: scale(.97);
+
     padding: 8em 0;
 }
 
@@ -171,10 +183,21 @@ html {
 .winner>.winner-banner {
     display: block;
     width: 100%;
-    background: linear-gradient( 45deg,  #ffa600, #ff9d4c);
+    color: #ffa600;
     text-align: center;
-    color: white;
     padding: .5em 2em;
+    animation: winner;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes winner {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
 }
 
 .project>.project-links {
@@ -189,7 +212,7 @@ html {
     text-decoration: none;
     margin: 10px 10px;
     padding: 10px 20px;
-    border-radius: 2px;
+    border-radius: 3px;
 }
 
 .project-links>.github {
@@ -232,7 +255,8 @@ html {
     width: 50vw;
     padding: 1.5em;
     padding-bottom: 2.5em;
-    border: solid 1px #ececec;
+    /* border: solid 1px #ececec; */
+    text-align: center;
     border-radius: 2px;
 }
 
@@ -243,8 +267,14 @@ html {
     border: 2px solid #f8054d;
     background-color: white;
     text-align: center;
-    border-radius: 2px;
+    border-radius: 5px;
     margin-top: -2em;
+    transition: all .3s;
+    box-shadow: 0 0 2em rgba(111, 117, 129, 0.09);
+}
+
+.contact-container>.contact-email:hover {
+    background-color: #f8054d10;
 }
 
 /* footer container */
