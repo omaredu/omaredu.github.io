@@ -161,6 +161,7 @@ html {
 
     border-radius: 5px;
     transform: scale(.97);
+    box-shadow: 0 0 2em rgba(111, 117, 129, 0.1);
 
     padding: 8em 0;
 }
@@ -211,18 +212,35 @@ html {
 .project>.project-links>a {
     text-decoration: none;
     margin: 10px 10px;
-    padding: 10px 20px;
-    border-radius: 3px;
+    padding: 10px 25px;
+    border-radius: 5px;
+    border-width: 2px;
+    border-style: solid;
+    transition: all .3s;
+}
+
+.project>.project-links>a:hover {
+    box-shadow: 0 0 2em rgba(111, 117, 129, 0.1);
 }
 
 .project-links>.github {
     color: white;
-    background-color: #212121;
+    border-color: #212121;
+    color: #212121;
+}
+
+.project-links>.github:hover {
+    background-color: #21212120;
 }
 
 .project-links>.devpost {
     color: white;
-    background-color: #003e54;
+    border-color: #003e54;
+    color: #003e54;
+}
+
+.project-links>.devpost:hover {
+    background-color: #003e5420;
 }
 
 .project-links>.playstore {
@@ -233,12 +251,22 @@ html {
 
 .project-links>.web {
     color: white;
-    background-color: #0779e4;
+    border-color: #0779e4;
+    color: #0779e4;
+}
+
+.project-links>.web:hover {
+    background-color: #0779e420;
 }
 
 .project-links>.itch {
     color: white;
-    background-color: #fa5c5c;
+    border-color: #fa5c5c;
+    color: #fa5c5c;
+}
+
+.project-links>.itch:hover {
+    background-color: #fa5c5c20;
 }
 
 .contact-container {
