@@ -30,18 +30,6 @@
             ]
         },
         {
-            "icon": "gradienta.svg",
-            "name": "Gradienta",
-            "description": "A small web project to create, see and share gradients with everyone.",
-            "background": "#a700ff",
-            "links": [
-                {
-                    "type": "web",
-                    "url": "http://gradienta.herokuapp.com/"
-                }
-            ]
-        },
-        {
             "icon": "typedex.svg",
             "name": "TypeDex",
             "description": "A simple open source Pokedex webpage written in Typescript & ReactJS.",
