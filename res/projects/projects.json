@@ -1,6 +1,22 @@
 {
     "projects": [
         {
+            "icon": "together.svg",
+            "name": "Together",
+            "description": "A full covid/vaccination platform created to implement safer spaces in LATAM.",
+            "background": "#28DF99",
+            "links": [
+                {
+                    "type": "devpost",
+                    "url": "https://devpost.com/software/together-a1e8t2"
+                },
+                {
+                    "type": "github",
+                    "url": "https://github.com/Omaredu/together"
+                }
+            ]
+        },
+        {
             "icon": "tempo.svg",
             "name": "Tempo",
             "description": "An open source app to check the weather.",
@@ -92,6 +108,18 @@
                 {
                     "type": "github",
                     "url": "https://github.com/Omaredu/reclass"
+                }
+            ]
+        },
+        {
+            "icon": "game_of_life.svg",
+            "name": "Conway's Game of Life",
+            "description": "Ruby2D implementation of John Conway's game of life.",
+            "background": "#000000",
+            "links": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/Omaredu/game_of_life"
                 }
             ]
         }
