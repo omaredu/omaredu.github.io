@@ -1,6 +1,23 @@
 {
     "projects": [
         {
+            "icon": "shetky_white.svg",
+            "name": "Shetky",
+            "winner": "HackMerced VII",
+            "description": "An integral academic platform project built/designed in 48 hours.",
+            "background": "#0E3EDA",
+            "links": [
+                {
+                    "type": "devpost",
+                    "url": "https://devpost.com/software/shetky"
+                },
+                {
+                    "type": "github",
+                    "url": "https://github.com/dorado5115/Shetky-Mobile"
+                }
+            ]
+        },
+        {
             "icon": "together.svg",
             "name": "Together",
             "description": "A full covid/vaccination platform created to implement safer spaces in LATAM.",
