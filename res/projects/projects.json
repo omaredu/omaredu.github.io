@@ -1,6 +1,18 @@
 {
     "projects": [
         {
+            "icon": "game_of_life.svg",
+            "name": "Conway's Game of Life",
+            "description": "Ruby2D implementation of John Conway's game of life.",
+            "background": "#000000",
+            "links": [
+                {
+                    "type": "github",
+                    "url": "https://github.com/Omaredu/game_of_life"
+                }
+            ]
+        },
+        {
             "icon": "shetky_white.svg",
             "name": "Shetky",
             "winner": "HackMerced VII",
@@ -20,7 +32,7 @@
         {
             "icon": "together.svg",
             "name": "Together",
-            "description": "A full covid/vaccination platform created to implement safer spaces in LATAM.",
+            "description": "A full covid/vaccination platform created to implement safer spaces in LATAM written in React Native and Ruby on Rails.",
             "background": "#28DF99",
             "links": [
                 {
@@ -125,18 +137,6 @@
                 {
                     "type": "github",
                     "url": "https://github.com/Omaredu/reclass"
-                }
-            ]
-        },
-        {
-            "icon": "game_of_life.svg",
-            "name": "Conway's Game of Life",
-            "description": "Ruby2D implementation of John Conway's game of life.",
-            "background": "#000000",
-            "links": [
-                {
-                    "type": "github",
-                    "url": "https://github.com/Omaredu/game_of_life"
                 }
             ]
         }
