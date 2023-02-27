@@ -1,92 +1,28 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Omaredu - Developer & Designer</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' href='css/main.css'>
-    <script src="https://kit.fontawesome.com/6023f3e192.js" crossorigin="anonymous"></script>
-    <script src='main.js'></script>
-    <!-- <meta name="description" content="Hi! I am Omaredu, a developer and designer who loves all kinds of technologies and how they can be applied in everyday life."> -->
-    <meta name="description" content="JavaScript Designer and Developer Full Stack, ready to make your project stand out from the rest.">
-    <meta name="keywords" content="Omaredu, Portfolio, JavaScript, FullStack, Developer, Designer, Twitter, Dribbble, GitHub, Omar, Eduardo, Sánchez, Ramos">
-    <meta name="author" content="Omaredu">
-    <meta name="theme-color" content="#f8054d">
-    <link rel="apple-touch-icon" type="image/png" href="/res/shortcut_icon.png"/>
-    <link rel="icon" href="favicon.ico"/>
-    <link rel="mask-icon" href="res/omaredu_touchbar.svg" color="#f8054d">
-</head>
-<body>
-    <!-- main profile info -->
-    <div id="main-view">
-        <div>
-            <div id="profile">
-                <img src="res/profile.jpg" ref="omaredu profile" />
-                <div id="profile-info">
-                    <p id="name">Omaredu.</p>
-                    <p id="description">Developer & Designer</p>
-                </div>
-            </div>
-            <div class="social">
-                <a href="https://dribbble.com/Omaredu" target="_blank"><i class="fab fa-dribbble"></i></a>
-                <a href="https://twitter.com/omaredumx" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="https://github.com/Omaredu" target="_blank"><i class="fab fa-github"></i></a>
-            </div>
-        </div>
-    </div>
-    <!-- header -->
-    <div id="dummy-header"></div>
-    <div id="header">
-        <ul>
-            <li id="home-option" class="header-selected" onclick="navigateClick(0)">Home</li>
-            <li id="portfolio-option" class="header-unselected" onclick="navigateClick(1)">Portfolio</li>
-            <li id="contact-option" class="header-unselected" onclick="navigateClick(2)">Contact</li>
-        </ul>
-        <i class="fa fa-hamburger menu-bars" onclick="toggleMenu()"></i>
-        <div class="mobile-menu" id="mobile-menu">
-            <ul>
-                <li onclick="navigateClick(0)">Home</li>
-                <li onclick="navigateClick(1)">Portfolio</li>
-                <li onclick="navigateClick(2)">Contact</li>
-            </ul>
-        </div>
-    </div>
-    <div id="portfolio-section" class="section">
-        <p class="section-title">Portfolio</p>
-        <p class="section-description">Look what i have worked on...</p>
-    </div>
-    <!-- Project grid -->
-    <div class="project-grid">
-        <ul id="projects-list">
-            <!-- <li>
-                <div class="project">
-                    <img src="res/projects/tempo.svg" style="background-color: #40bad5" rel="tempo"/>
-                    <p class="project-title">Tempo</p>
-                    <p class="project-description">An open source app to check the weather.</p>
-                    <div class="project-links">
-                        <a href="#" class="playstore" target="_blank"><p>Play Store</p></a>
-                        <a href="#" class="github" target="_blank"><p>GitHub</p></a>
-                        <a href="#" class="web" target="_blank"><p>Website</p></a>
-                    </div>
-                </div>
-            </li> -->
-        </ul>
-    </div>
-    <div id="contact-section" class="section">
-        <p class="section-title">Contact</p>
-        <p class="section-description">We could have an interesting conversation</p>
-    </div>
-    <!-- Contact view -->
-    <div class="contact-container">
-        <p class="contact-text">You can always send me an email and I will reply as soon as possible.</p>
-        <a class="contact-email" href="mailto:me@omaredu.com">me@omaredu.com</a>
-    </div>
-    <!-- Footer -->
-    <div class="footer">
-        <p class="i-love">Made with <i class="fa fa-heart" style="color: #f8054d;"></i> in Latam by Omaredu.</p>
-        <p class="footer-powered">This site uses Fontawesome & Google Fonts.</p>
-    </div>
-</body>
-<script src="js/main.js"></script>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Meta tags -->
+    <meta name="theme-color" content="#185ADB" />
+    <meta name="description" content="Omar Sánchez is a developer and designer based in Mexico. Passionate about building great products and amazing experiences." />
+    <meta name="keywords" content="omar, omar sanchez, developer, designer, mexico, mexico city, web developer, web designer, front end developer, react, react native, typescript" />
+    <meta name="author" content="Omar Sánchez" />
+    <meta name="og:title" content="Omar Sánchez" />
+    <meta name="og:description" content="I'm a developer and designer. Passionate about building great products and amazing experiences." />
+    <meta name="og:image" content="/og-image.png" />
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@500;600&display=swap" rel="stylesheet">
+    
+    <title>Omar Sánchez - Developer and Designer</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
