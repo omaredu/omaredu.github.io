@@ -35,9 +35,13 @@ jobs:
       - name: pnpm build
         run: |
           pnpm install
-          pnpm build
-      - name: deploy to gh-pages
-        uses: peaceiris/actions-gh-pages@v3
+                pnpm build
+      - name: HTML dir to GitHub Pages
+        # You may pin to the exact commit or the version.
+        # uses: uibcdf/action-html-dir-to-gh-pages@a12d61c3739d3a60cdf2fad7a75a446ec62187b4
+        uses: uibcdf/action-html-dir-to-gh-pages@1.0.0
         with:
-          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          publish_dir: ./dist
+          # Name of the branch where the html directory is located
+          branch: master
+          # Path of the html directory
+          html_dir: dist
