@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     const portfolio = portfolioRef.current
     if (!portfolio) { return }
-    
+
     checkScroll(portfolioRef.current as Element)
     portfolio.onscroll = e => checkScroll(e.target as Element)
   }, [portfolioRef])
@@ -44,8 +44,8 @@ function App() {
     <>
       <Header />
       <section className="flex flex-col gap-[30px] my-[120px] md:w-[640px] md:max-w-[640px]">
-        <Title 
-          animated 
+        <Title
+          animated
           className='max-w-[335px]'
           title="Hi 👋 I'm Omar Sánchez. A developer and designer based in Monterrey, NL."
           subtitle='I strive to create the most delightful and innovative digital experiences with attention to detail'
@@ -66,11 +66,11 @@ function App() {
             url='https://dribbble.com/omaredu'
           />
           <SocialCard
-            alt='Twitter'
-            icon='/social/twitter.svg'
+            alt='X'
+            icon='/social/x.svg'
             title='@omaredumx'
-            domain='twitter.com'
-            url='https://twitter.com/@omaredumx'
+            domain='x.com'
+            url='https://x.com/@omaredumx'
           />
           <SocialCard
             alt='LinkedIn'
@@ -85,8 +85,8 @@ function App() {
         <LatestProject />
       </section>
       <section id="apps" className='mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]'>
-        <Title 
-          className='max-w-[335px]' 
+        <Title
+          className='max-w-[335px]'
           title='🙌 My Favorite Apps'
           subtitle='Here are a couple of apps that I would recommend to anyone and I use in my daily activities.'
         />
@@ -112,7 +112,7 @@ function App() {
         </div>
       </section>
       <section id="portfolio" className='mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]'>
-        <Title 
+        <Title
           className='max-w-[335px]'
           title='👀 Wanna Take a Look to My Recent Work?'
           subtitle="Sure! I've worked on many projects, but here are some of my favorite ones and the ones I'm most proud of."
@@ -149,7 +149,7 @@ function App() {
         </div>
       </section>
       <section id="places" className='mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]'>
-        <Title 
+        <Title
           className='max-w-[335px]'
           title='🧳 My Favorite Places'
           subtitle="Traveling is one of the greatest experiences I've ever had, and I'd love to share with you my favorite ones so far."
@@ -178,7 +178,7 @@ function App() {
         </div>
       </section>
       <section className='my-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]'>
-        <Title 
+        <Title
           className='max-w-[335px]'
           title='📧 Email Me'
           subtitle="I'd love to hear from you, so feel free to send me an email and I'll get back to you as soon as possible."
