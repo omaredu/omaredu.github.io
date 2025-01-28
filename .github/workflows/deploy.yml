@@ -1,47 +1,38 @@
-name: Deploy React Application
-
-# Controls when the action will run. 
+# Triggers the workflow on push or pull request events but only for the main branch
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ master ]
   pull_request:
     branches: [ master ]
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build_test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.13.0] # We will deploy with only one version of node  
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Setup pnpm
-        # You may pin to the exact commit or the version.
-        # uses: pnpm/action-setup@c3b53f6a16e57305370b4ae5a540c2077a1d50dd
-        uses: pnpm/action-setup@v2.2.4
-        with:
-          version: 7.27.0
-      - name: pnpm build
-        run: |
-          pnpm install
-                pnpm build
-      - name: HTML dir to GitHub Pages
-        # You may pin to the exact commit or the version.
-        # uses: uibcdf/action-html-dir-to-gh-pages@a12d61c3739d3a60cdf2fad7a75a446ec62187b4
-        uses: uibcdf/action-html-dir-to-gh-pages@1.0.0
-        with:
-          # Name of the branch where the html directory is located
-          branch: master
-          # Path of the html directory
-          html_dir: dist
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    # Setup Node.js using the specified version
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    # Install dependencies using npm
+    - name: Install dependencies
+      run: npm install
+
+    # Build the project using npm
+    - name: Build project
+      run: npm run build
+
+    # Deploy the HTML directory to GitHub Pages
+    - name: Deploy to GitHub Pages
+      uses: uibcdf/action-html-dir-to-gh-pages@1.0.0
+      with:
+        # Name of the branch where the html directory is located
+        branch: master
+        # Path of the html directory
+        html_dir: dist
