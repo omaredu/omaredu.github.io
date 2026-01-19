@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 
 import Header from "@components/header";
 import AppCard from "./components/app-card";
@@ -12,25 +12,32 @@ import Title from "./components/title";
 
 function App() {
   const portfolioRef = useRef<HTMLDivElement>(null);
+  const [portfolioCanScrollLeft, setPortfolioCanScrollLeft] = useState(false);
+  const [portfolioCanScrollRight, setPortfolioCanScrollRight] = useState(false);
+  const portfolioScrollStep = 320;
 
-  const checkScroll = (element: Element) => {
+  const checkScroll = (element: HTMLElement) => {
     const { scrollLeft, scrollWidth, clientWidth } = element;
+    const hasLeft = scrollLeft > 0;
+    const hasRight = scrollLeft + clientWidth < scrollWidth - 1;
 
-    if (scrollLeft > 0) {
-      element.classList.remove("border-l-transparent");
-      element.classList.add("border-l-border/10");
-    } else {
-      element.classList.remove("border-l-border/10");
-      element.classList.add("border-l-transparent");
+    setPortfolioCanScrollLeft((previous) =>
+      previous !== hasLeft ? hasLeft : previous,
+    );
+    setPortfolioCanScrollRight((previous) =>
+      previous !== hasRight ? hasRight : previous,
+    );
+  };
+
+  const scrollPortfolio = (direction: "left" | "right") => {
+    const portfolio = portfolioRef.current;
+    if (!portfolio) {
+      return;
     }
 
-    if (scrollLeft + clientWidth < scrollWidth) {
-      element.classList.remove("border-r-transparent");
-      element.classList.add("border-r-border/10");
-    } else {
-      element.classList.remove("border-r-border/10");
-      element.classList.add("border-r-transparent");
-    }
+    const offset =
+      direction === "left" ? -portfolioScrollStep : portfolioScrollStep;
+    portfolio.scrollBy({ left: offset, behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -39,9 +46,17 @@ function App() {
       return;
     }
 
-    checkScroll(portfolioRef.current as Element);
-    portfolio.onscroll = (e) => checkScroll(e.target as Element);
-  }, [portfolioRef]);
+    const handleScroll = () => checkScroll(portfolio);
+
+    handleScroll();
+    portfolio.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      portfolio.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -101,51 +116,103 @@ function App() {
           title="👀 Wanna Take a Look to My Recent Work?"
           subtitle="Sure! I've worked on many projects, but here are some of my favorite ones and the ones I'm most proud of."
         />
-        <div
-          className="scrollable flex gap-[15px] overflow-x-auto -mx-[20px] px-[20px] py-[10px] md:border-l md:border-r border-l-transparent border-r-transparent transition duration-300"
-          ref={portfolioRef}
-        >
-          <ProjectCard
-            icon="/projects/proyecta.svg"
-            name="Proyecta"
-            iconSize="lg"
-            description="A fully-featured service management system. Made in collaboration with the University of Monterrey (UDEM)."
-          />
-          <ProjectCard
-            icon="/projects/ingenia.svg"
-            name="Ingenia"
-            description="An experimental group chat experience powered by AI agents, designed to inspire and support women pursuing STEM."
-            url="https://github.com/omaredu/ingenia-hackathon"
-            label="View on Github"
-          />
-          <ProjectCard
-            icon="/projects/payway.svg"
-            name="Payway"
-            description="At Payway, we're building the next generation of digital corporate banking."
-            url="https://www.payway.mx"
-            label="Go to Webpage"
-          />
-          <ProjectCard
-            icon="/projects/together.svg"
-            name="Together"
-            description="We developed it in just a couple of days for a hackathon to make the fight against COVID-19 easier."
-            url="https://devpost.com/software/together-a1e8t2"
-            label="View on Devpost"
-          />
-          <ProjectCard
-            icon="/projects/tempo.svg"
-            name="Tempo"
-            description="Check current weather in your location with a smooth and open source experience."
-            label="Go to Webpage"
-            url="/Tempo"
-          />
-          <ProjectCard
-            icon="/projects/pew.svg"
-            name="PEW"
-            description="A Space Invaders like game made in 3 days for simple game jam 4."
-            label="View on Itch.io"
-            url="https://omaredu.itch.io/pew-by-omaredu"
-          />
+        <div className="relative">
+          {portfolioCanScrollLeft ? (
+            <button
+              type="button"
+              aria-label="Scroll portfolio left"
+              onClick={() => scrollPortfolio("left")}
+              className="hidden md:flex items-center justify-center absolute -left-[70px] top-1/2 -translate-y-1/2 h-[36px] w-[36px] text-secondary hover:text-foreground transition z-10"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className="h-[18px] w-[18px]"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+            </button>
+          ) : null}
+          {portfolioCanScrollRight ? (
+            <button
+              type="button"
+              aria-label="Scroll portfolio right"
+              onClick={() => scrollPortfolio("right")}
+              className="hidden md:flex items-center justify-center absolute -right-[70px] top-1/2 -translate-y-1/2 h-[36px] w-[36px] text-secondary hover:text-foreground transition z-10"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className="h-[18px] w-[18px]"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+            </button>
+          ) : null}
+          <div
+            className={`scrollable flex gap-[15px] overflow-x-auto -mx-[20px] px-[20px] py-[10px] md:border-l md:border-r ${
+              portfolioCanScrollLeft
+                ? "border-l-border/10"
+                : "border-l-transparent"
+            } ${
+              portfolioCanScrollRight
+                ? "border-r-border/10"
+                : "border-r-transparent"
+            } transition duration-300`}
+            ref={portfolioRef}
+          >
+            <ProjectCard
+              icon="/projects/proyecta.svg"
+              name="Proyecta"
+              iconSize="lg"
+              description="A fully-featured service management system. Made in collaboration with the University of Monterrey (UDEM)."
+            />
+            <ProjectCard
+              icon="/projects/ingenia.svg"
+              name="Ingenia"
+              description="An experimental group chat experience powered by AI agents, designed to inspire and support women pursuing STEM."
+              url="https://github.com/omaredu/ingenia-hackathon"
+              label="View on Github"
+            />
+            <ProjectCard
+              icon="/projects/payway.svg"
+              name="Payway"
+              description="At Payway, we're building the next generation of digital corporate banking."
+              url="https://www.payway.mx"
+              label="Go to Webpage"
+            />
+            <ProjectCard
+              icon="/projects/together.svg"
+              name="Together"
+              description="We developed it in just a couple of days for a hackathon to make the fight against COVID-19 easier."
+              url="https://devpost.com/software/together-a1e8t2"
+              label="View on Devpost"
+            />
+            <ProjectCard
+              icon="/projects/tempo.svg"
+              name="Tempo"
+              description="Check current weather in your location with a smooth and open source experience."
+              label="Go to Webpage"
+              url="/Tempo"
+            />
+            <ProjectCard
+              icon="/projects/pew.svg"
+              name="PEW"
+              description="A Space Invaders like game made in 3 days for simple game jam 4."
+              label="View on Itch.io"
+              url="https://omaredu.itch.io/pew-by-omaredu"
+            />
+          </div>
         </div>
       </section>
       <section className="-mx-[20px] md:mx-0 md:w-full mt-[50px]">
