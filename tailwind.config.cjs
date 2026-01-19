@@ -13,7 +13,7 @@ module.exports = {
       },
       borderRadius: {
         sm: "5px",
-        DEFAULT: "10px",
+        DEFAULT: "8px",
       },
       boxShadow: {
         DEFAULT: "0px 3px 3px rgba(11, 19, 36, 0.03)",
