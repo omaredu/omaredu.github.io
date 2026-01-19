@@ -206,7 +206,7 @@ function App() {
       <footer className="flex flex-col py-[50px] items-center border-t border-border/10 gap-[20px] md:w-[640px] md:max-w-[640px] md:justify-between md:flex-row">
         <img src="/logo_gray.svg" alt="Omaredu logo gray" />
         <p className="text-sm text-secondary">
-          &copy; 2025 All Rights Reserved.
+          &copy; 2026 All Rights Reserved.
         </p>
       </footer>
     </>
