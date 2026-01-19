@@ -30,7 +30,7 @@ export default function LatestProject(props: LatestProjectProps) {
             href="https://apps.apple.com/mx/app/payway/id6749019341"
             target="_blank"
           >
-            <Button className="my-[25px]">Discover Payway</Button>
+            <Button className="my-[25px]">View on the App Store</Button>
           </a>
         </div>
       </div>

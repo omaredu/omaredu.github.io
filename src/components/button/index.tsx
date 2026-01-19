@@ -16,7 +16,7 @@ export default function Button(props: ButtonProps) {
   return (
     <div
       {...props}
-      className={`px-[20px] rounded border border-border/10 cursor-pointer shadow ${styles[kind]} ${props.className}`}
+      className={`px-[20px] rounded border border-border/10 cursor-pointer shadow-sm ${styles[kind]} ${props.className}`}
     >
       <p className="font-semibold">{props.children}</p>
     </div>

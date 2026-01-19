@@ -50,7 +50,7 @@ function App() {
           animated
           className="max-w-[335px]"
           title="Hi 👋 I'm Omar Sánchez. A developer and designer based in Monterrey, NL."
-          subtitle="I strive to create the most delightful and innovative digital experiences with attention to detail"
+          subtitle="I strive to create the most delightful and innovative digital experiences with attention to detail."
         />
         <div className="scrollable flex gap-[15px] overflow-x-auto -mx-[20px] px-[20px] py-[10px]">
           <SocialCard
@@ -101,30 +101,43 @@ function App() {
           ref={portfolioRef}
         >
           <ProjectCard
+            icon="/projects/proyecta.svg"
+            name="Proyecta"
+            iconSize="lg"
+            description="A fully-featured service management system. Made in collaboration with the University of Monterrey (UDEM)."
+          />
+          <ProjectCard
+            icon="/projects/ingenia.svg"
+            name="Ingenia"
+            description="An experimental group chat experience powered by AI agents, designed to inspire and support women pursuing STEM."
+            url="https://github.com/omaredu/ingenia-hackathon"
+            label="View on Github"
+          />
+          <ProjectCard
+            icon="/projects/payway.svg"
+            name="Payway"
+            description="At Payway, we're building the next generation of digital corporate banking."
+            url="https://www.payway.mx"
+            label="Go to Webpage"
+          />
+          <ProjectCard
             icon="/projects/together.svg"
             name="Together"
-            description="We developed it in just a couple of days for a hackathon to make the fight against COVID-19 easier"
+            description="We developed it in just a couple of days for a hackathon to make the fight against COVID-19 easier."
             url="https://devpost.com/software/together-a1e8t2"
             label="View on Devpost"
           />
           <ProjectCard
-            icon="/projects/game_of_life.svg"
-            name="Game of Life (Ruby)"
-            description="A simple implementation of Conway's Game of Life in Ruby using Ruby2D"
-            url="https://github.com/Omaredu/game_of_life"
-            label="View on GitHub"
-          />
-          <ProjectCard
             icon="/projects/tempo.svg"
             name="Tempo"
-            description="Check current weather in your location with a smooth and open source experience"
+            description="Check current weather in your location with a smooth and open source experience."
             label="Go to Webpage"
             url="/Tempo"
           />
           <ProjectCard
             icon="/projects/pew.svg"
             name="PEW"
-            description="A Space Invaders like game made in 3 days for simple game jam 4"
+            description="A Space Invaders like game made in 3 days for simple game jam 4."
             label="View on Itch.io"
             url="https://omaredu.itch.io/pew-by-omaredu"
           />
