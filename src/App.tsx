@@ -86,36 +86,7 @@ function App() {
       <section className="-mx-[20px] md:mx-0 md:w-full">
         <HighlightedProject />
       </section>
-      <section
-        id="apps"
-        className="mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]"
-      >
-        <Title
-          className="max-w-[335px]"
-          title="🙌 My Favorite Apps"
-          subtitle="Here are a couple of apps that I would recommend to anyone and I use in my daily activities."
-        />
-        <div className="scrollable flex gap-[15px] overflow-x-auto -mx-[20px] px-[20px] py-[10px]">
-          <AppCard
-            icon="/app/duolingo.png"
-            name="Duolingo"
-            description="My favorite app to practice English and learn Czech"
-            url="https://apps.apple.com/us/app/duolingo-language-lessons/id570060128"
-          />
-          <AppCard
-            icon="/app/headway.png"
-            name="Headway"
-            description="I love learning stuff and discovering new books here"
-            url="https://apps.apple.com/us/app/headway-fun-easy-growth/id1457185832"
-          />
-          <AppCard
-            icon="/app/1password.png"
-            name="1Password"
-            description="My favorite place to store all my passwords and secrets..."
-            url="https://apps.apple.com/us/app/1password-8-password-manager/id1511601750"
-          />
-        </div>
-      </section>
+
       <section
         id="portfolio"
         className="mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]"
@@ -162,15 +133,33 @@ function App() {
       <section className="-mx-[20px] md:mx-0 md:w-full mt-[50px]">
         <LatestProject />
       </section>
+      <section
+        id="open-source"
+        className="mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]"
+      >
+        <Title
+          className="max-w-[335px]"
+          title="🐙 Open Source? I've got some"
+          subtitle="Open-source projects where my contributions shipped, shipped again, and made things better."
+        />
+        <div className="scrollable flex gap-[15px] overflow-x-auto -mx-[20px] px-[20px] py-[10px]">
+          <AppCard
+            icon="/app/ora.png"
+            name="Ora Browser"
+            description="An open-source, native macOS browser built with Swift and WebKit."
+            url="https://www.orabrowser.com"
+          />
+        </div>
+      </section>
       <section className="my-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]">
         <Title
           className="max-w-[335px]"
-          title="📧 Email Me"
-          subtitle="I'd love to hear from you, so feel free to send me an email and I'll get back to you as soon as possible."
+          title="📧 Let's build something great together"
+          subtitle="Have an idea, a question, or just want to say hi? Drop me an email and I’ll get back to you ASAP."
         />
         <a href="mailto:me@omaredu.com">
           <Button kind="primary" className="py-[12px]">
-            Send Me an Email
+            Send an email
           </Button>
         </a>
       </section>

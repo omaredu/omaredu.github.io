@@ -31,9 +31,9 @@ export default function Header() {
               Portfolio
             </li>
           </a>
-          <a href="#apps">
+          <a href="#open-source">
             <li className="text-secondary hover:text-primary cursor-pointer hover:underline">
-              Favorite Apps
+              Open Source
             </li>
           </a>
           <a href="mailto:me@omaredu.com">

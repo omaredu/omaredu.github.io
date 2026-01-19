@@ -17,7 +17,7 @@ export default function LatestProject(props: LatestProjectProps) {
         />
         <div className="flex flex-col items-center md:items-start">
           <label className="text-sm px-[8px] py-[3px] text-white bg-white/20 rounded-full font-semibold mb-[10px]">
-            Launched
+            Shipped
           </label>
           <h1 className="text-white text-center md:text-left px-[20%] md:px-0">
             Payway. Corporate cards and payroll, finally in one place.
