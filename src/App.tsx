@@ -7,6 +7,7 @@ import LatestProject from "./components/latest-project";
 import HighlightedProject from "./components/highlighted-project";
 import ProjectCard from "./components/project-card";
 import SocialCard from "./components/social-card";
+import CompanyReel from "./components/company-reel";
 import Title from "./components/title";
 
 function App() {
@@ -45,13 +46,14 @@ function App() {
   return (
     <>
       <Header />
-      <section className="flex flex-col gap-[30px] my-[120px] md:w-[640px] md:max-w-[640px]">
+      <section className="flex flex-col gap-[30px] my-[120px] mb-[60px] md:w-[640px] md:max-w-[640px]">
         <Title
           animated
           className="max-w-[335px]"
-          title="Hi 👋 I'm Omar Sánchez. A developer and designer based in Monterrey, NL."
+          title="Hi 👋 I'm Omar Sánchez. A product engineer based in Monterrey, NL."
           subtitle="I strive to create the most delightful and innovative digital experiences with attention to detail."
         />
+
         <div className="scrollable flex gap-[15px] overflow-x-auto -mx-[20px] px-[20px] py-[10px]">
           <SocialCard
             alt="Github"
@@ -82,7 +84,10 @@ function App() {
             url="https://dribbble.com/omaredu"
           />
         </div>
+
+        <CompanyReel className="mt-3" />
       </section>
+
       <section className="-mx-[20px] md:mx-0 md:w-full">
         <HighlightedProject />
       </section>
