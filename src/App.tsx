@@ -113,7 +113,7 @@ function App() {
       >
         <Title
           className="max-w-[335px]"
-          title="👀 Wanna Take a Look to My Recent Work?"
+          title="👀 Wanna Take a Look at My Recent Work?"
           subtitle="Sure! I've worked on many projects, but here are some of my favorite ones and the ones I'm most proud of."
         />
         <div className="relative">
