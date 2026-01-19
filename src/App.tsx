@@ -83,9 +83,9 @@ function App() {
           />
         </div>
       </section>
-      <section className="-mx-[20px] md:mx-0 md:w-full">
+      {/*<section className="-mx-[20px] md:mx-0 md:w-full">
         <LatestProject />
-      </section>
+      </section>*/}
       <section
         id="apps"
         className="mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]"
@@ -159,37 +159,8 @@ function App() {
           />
         </div>
       </section>
-      <section
-        id="places"
-        className="mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]"
-      >
-        <Title
-          className="max-w-[335px]"
-          title="🧳 My Favorite Places"
-          subtitle="Traveling is one of the greatest experiences I've ever had, and I'd love to share with you my favorite ones so far."
-        />
-        <div className="flex flex-col gap-[15px] md:flex-row">
-          <MapCard
-            className="h-[280px] md:h-full"
-            image="/maps/mexico.png"
-            url="https://en.wikipedia.org/wiki/Mexico"
-            flag="🇲🇽"
-          />
-          <div className="flex gap-[15px] md:flex-col">
-            <MapCard
-              className="h-[145px] md:h-[145px] md:w-[170px]"
-              image="/maps/slovakia.png"
-              url="https://en.wikipedia.org/wiki/Slovakia"
-              flag="🇸🇰"
-            />
-            <MapCard
-              className="h-[145px]"
-              image="/maps/poland.png"
-              url="https://en.wikipedia.org/wiki/Poland"
-              flag="🇵🇱"
-            />
-          </div>
-        </div>
+      <section className="-mx-[20px] md:mx-0 md:w-full mt-[50px]">
+        <LatestProject />
       </section>
       <section className="my-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]">
         <Title

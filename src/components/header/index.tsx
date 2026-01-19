@@ -36,11 +36,6 @@ export default function Header() {
               Favorite Apps
             </li>
           </a>
-          <a href="#places">
-            <li className="text-secondary hover:text-primary cursor-pointer hover:underline">
-              Places
-            </li>
-          </a>
           <a href="mailto:me@omaredu.com">
             <li>
               <Button>Contact Me</Button>
