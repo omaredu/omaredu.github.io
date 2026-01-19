@@ -59,13 +59,6 @@ function App() {
             url='https://github.com/omaredu'
           />
           <SocialCard
-            alt='Dribbble'
-            icon='/social/dribbble.svg'
-            title='@omaredu'
-            domain='dribbble.com'
-            url='https://dribbble.com/omaredu'
-          />
-          <SocialCard
             alt='X'
             icon='/social/x.svg'
             title='@omaredumx'
@@ -78,6 +71,13 @@ function App() {
             title='/in/omaredu'
             domain='linkedin.com'
             url='https://www.linkedin.com/in/omaredu'
+          />
+          <SocialCard
+            alt='Dribbble'
+            icon='/social/dribbble.svg'
+            title='@omaredu'
+            domain='dribbble.com'
+            url='https://dribbble.com/omaredu'
           />
         </div>
       </section>
