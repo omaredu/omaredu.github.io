@@ -4,7 +4,7 @@ import Header from "@components/header";
 import AppCard from "./components/app-card";
 import Button from "./components/button";
 import LatestProject from "./components/latest-project";
-import MapCard from "./components/map-card";
+import HighlightedProject from "./components/highlighted-project";
 import ProjectCard from "./components/project-card";
 import SocialCard from "./components/social-card";
 import Title from "./components/title";
@@ -61,18 +61,18 @@ function App() {
             url="https://github.com/omaredu"
           />
           <SocialCard
-            alt="X"
-            icon="/social/x.svg"
-            title="@omaredumx"
-            domain="x.com"
-            url="https://x.com/@omaredumx"
-          />
-          <SocialCard
             alt="LinkedIn"
             icon="/social/linkedin.svg"
             title="/in/omaredu"
             domain="linkedin.com"
             url="https://www.linkedin.com/in/omaredu"
+          />
+          <SocialCard
+            alt="X"
+            icon="/social/x.svg"
+            title="@omaredumx"
+            domain="x.com"
+            url="https://x.com/@omaredumx"
           />
           <SocialCard
             alt="Dribbble"
@@ -83,9 +83,9 @@ function App() {
           />
         </div>
       </section>
-      {/*<section className="-mx-[20px] md:mx-0 md:w-full">
-        <LatestProject />
-      </section>*/}
+      <section className="-mx-[20px] md:mx-0 md:w-full">
+        <HighlightedProject />
+      </section>
       <section
         id="apps"
         className="mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]"

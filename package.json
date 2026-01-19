@@ -11,8 +11,10 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@types/three": "^0.182.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
