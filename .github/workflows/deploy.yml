@@ -1,9 +1,9 @@
 # Triggers the workflow on push or pull request events but only for the main branch
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build_test:
@@ -11,28 +11,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    # Setup Node.js using the specified version
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node-version }}
+      # Setup Node.js using the specified version
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    # Install dependencies using npm
-    - name: Install dependencies
-      run: npm install
+      # Install dependencies using npm
+      - name: Install dependencies
+        run: npm install
 
-    # Build the project using npm
-    - name: Build project
-      run: npm run build
+      # Build the project using npm
+      - name: Build project
+        run: npm run build
 
-    # Deploy the HTML directory to GitHub Pages
-    - name: Deploy to GitHub Pages
-      uses: uibcdf/action-html-dir-to-gh-pages@1.0.0
-      with:
-        # Name of the branch where the html directory is located
-        branch: master
-        # Path of the html directory
-        html_dir: dist
+      # Deploy the HTML directory to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: uibcdf/action-html-dir-to-gh-pages@1.0.0
+        with:
+          # Name of the branch where the html directory is located
+          branch: master
+          # Path of the html directory
+          html_dir: dist
