@@ -47,8 +47,9 @@ function App() {
     }
 
     let animationFrame: number | null = null;
+    let resizeTimeout: number | null = null;
 
-    const updateScrollState = () => {
+    const scheduleScrollState = () => {
       if (animationFrame !== null) {
         return;
       }
@@ -59,20 +60,30 @@ function App() {
       });
     };
 
-    updateScrollState();
-    portfolio.addEventListener("scroll", updateScrollState, { passive: true });
-    window.addEventListener("resize", updateScrollState);
+    scheduleScrollState();
+    portfolio.addEventListener("scroll", scheduleScrollState, {
+      passive: true,
+    });
+    window.addEventListener("resize", scheduleScrollState);
 
-    const resizeObserver = new ResizeObserver(updateScrollState);
+    const resizeObserver = new ResizeObserver(() => {
+      if (resizeTimeout !== null) {
+        window.clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = window.setTimeout(scheduleScrollState, 0);
+    });
     resizeObserver.observe(portfolio);
 
     return () => {
       if (animationFrame !== null) {
         window.cancelAnimationFrame(animationFrame);
       }
+      if (resizeTimeout !== null) {
+        window.clearTimeout(resizeTimeout);
+      }
       resizeObserver.disconnect();
-      portfolio.removeEventListener("scroll", updateScrollState);
-      window.removeEventListener("resize", updateScrollState);
+      portfolio.removeEventListener("scroll", scheduleScrollState);
+      window.removeEventListener("resize", scheduleScrollState);
     };
   }, []);
 
