@@ -98,7 +98,7 @@ function App() {
           subtitle="I strive to create the most delightful and innovative digital experiences with attention to detail."
         />
 
-        <div className="scrollable flex gap-[15px] overflow-x-auto -mx-[20px] px-[20px] py-[10px]">
+        <div className="scrollable flex gap-[15px] overflow-x-auto md:overflow-x-hidden -mx-[20px] px-[20px] py-[10px]">
           <SocialCard
             alt="Github"
             icon="/social/github.svg"
