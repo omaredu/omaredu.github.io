@@ -46,15 +46,33 @@ function App() {
       return;
     }
 
-    const handleScroll = () => checkScroll(portfolio);
+    let animationFrame: number | null = null;
 
-    handleScroll();
-    portfolio.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
+    const updateScrollState = () => {
+      if (animationFrame !== null) {
+        return;
+      }
+
+      animationFrame = window.requestAnimationFrame(() => {
+        animationFrame = null;
+        checkScroll(portfolio);
+      });
+    };
+
+    updateScrollState();
+    portfolio.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+
+    const resizeObserver = new ResizeObserver(updateScrollState);
+    resizeObserver.observe(portfolio);
 
     return () => {
-      portfolio.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+      resizeObserver.disconnect();
+      portfolio.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
     };
   }, []);
 
