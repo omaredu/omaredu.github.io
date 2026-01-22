@@ -9,6 +9,7 @@ import ProjectCard from "./components/project-card";
 import SocialCard from "./components/social-card";
 import CompanyReel from "./components/company-reel";
 import Title from "./components/title";
+import AskTerminal from "./components/ask-terminal";
 
 function App() {
   const portfolioRef = useRef<HTMLDivElement>(null);
@@ -264,6 +265,18 @@ function App() {
             url="https://www.orabrowser.com"
           />
         </div>
+      </section>
+      <section id="faq" className="-mx-[20px] md:mx-0 md:w-full mt-[50px]">
+        <div className="w-full flex justify-start md:justify-center px-[20px]">
+          <div className="mb-[30px] gap-[30px] md:w-[640px] md:max-w-[640px]">
+            <Title
+              className="max-w-[335px]"
+              title="🧑‍💻 Any more questions? Ask the terminal!"
+              subtitle="Explore my case studies and ask any questions you have about my work."
+            />
+          </div>
+        </div>
+        <AskTerminal />
       </section>
       <section className="my-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]">
         <Title

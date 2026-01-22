@@ -36,6 +36,11 @@ export default function Header() {
               Open Source
             </li>
           </a>
+          <a href="#faq">
+            <li className="text-secondary hover:text-primary cursor-pointer hover:underline">
+              FAQ
+            </li>
+          </a>
           <a href="mailto:me@omaredu.com">
             <li>
               <Button>Contact Me</Button>
