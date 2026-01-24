@@ -1,12 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 import "xterm/css/xterm.css";
+import {
+  TerminalStatusIndicator,
+  type TerminalStatus,
+} from "./terminal-status-indicator";
 
 export function XTerm() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const termRef = useRef<Terminal | null>(null);
   const fitRef = useRef<FitAddon | null>(null);
+  const [status, setStatus] = useState<TerminalStatus>("connecting");
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -25,8 +30,6 @@ export function XTerm() {
     term.open(containerRef.current);
     fit.fit();
 
-    term.writeln("Connecting to terminal...");
-
     termRef.current = term;
     fitRef.current = fit;
 
@@ -34,8 +37,7 @@ export function XTerm() {
     const socket = new WebSocket(wsUrl);
 
     const handleOpen = () => {
-      term.writeln("Connected.");
-      term.write("$ ");
+      setStatus("connected");
     };
     const handleMessage = (event: MessageEvent) => {
       if (typeof event.data === "string") {
@@ -53,10 +55,10 @@ export function XTerm() {
       }
     };
     const handleClose = () => {
-      term.writeln("\r\n[disconnected]");
+      setStatus("disconnected");
     };
     const handleError = () => {
-      term.writeln("\r\n[connection error]");
+      setStatus("error");
     };
 
     socket.addEventListener("open", handleOpen);
@@ -86,9 +88,9 @@ export function XTerm() {
   }, []);
 
   return (
-    <div
-      ref={containerRef}
-      className="w-dvw md:w-full h-[350px] overflow-hidden my-5"
-    />
+    <div className="relative w-dvw md:w-full h-[350px] overflow-hidden my-5">
+      <TerminalStatusIndicator status={status} />
+      <div ref={containerRef} className="h-full w-full" />
+    </div>
   );
 }
