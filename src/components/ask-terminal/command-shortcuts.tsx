@@ -163,7 +163,10 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
           </button>
         </div>
       </div>
-      <div ref={scrollContainerRef} className="overflow-x-auto pb-4">
+      <div
+        ref={scrollContainerRef}
+        className="overflow-x-auto pb-4 no-scrollbar"
+      >
         <div className="flex gap-4">
           <div className="w-1 flex-shrink-0" />
           {commandShortcuts.map((shortcut) => (
