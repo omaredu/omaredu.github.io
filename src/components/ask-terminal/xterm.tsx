@@ -209,7 +209,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
           onClick={handleReset}
           className="absolute right-0 top-0 z-10 items-center text-foreground bg-white flex pl-2 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition"
         >
-          <span>Reset</span>
+          <span>Reset session</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"
