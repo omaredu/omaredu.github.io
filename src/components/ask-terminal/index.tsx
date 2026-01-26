@@ -20,7 +20,7 @@ export default function AskTerminal(props: AskTerminalProps) {
         <XTerm ref={terminalRef} />
       </div>
       <CommandShortcuts
-        className="p-4 border-t border-t-white/20"
+        className="p-4 border-t border-white/20"
         onCommand={(command) => {
           terminalRef.current?.sendCommand(command);
         }}
