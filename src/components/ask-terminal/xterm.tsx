@@ -22,44 +22,156 @@ export interface XTermHandle {
 
 export interface XTermProps extends React.HTMLAttributes<HTMLDivElement> {}
 
-export const XTerm = forwardRef<XTermHandle, XTermProps>(function XTerm(
-  props,
-  ref,
-) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const termRef = useRef<Terminal | null>(null);
-  const fitRef = useRef<FitAddon | null>(null);
-  const socketRef = useRef<WebSocket | null>(null);
-  const statusRef = useRef<TerminalStatus>("connecting");
-  const reconnectRequestedRef = useRef(false);
-  const pendingInputRef = useRef("");
-  const hasConnectedRef = useRef(false);
-  const [terminalReady, setTerminalReady] = useState(false);
-  const [connectionVersion, setConnectionVersion] = useState(0);
+export const XTerm = forwardRef<XTermHandle, XTermProps>(
+  function XTerm(props, ref) {
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const termRef = useRef<Terminal | null>(null);
+    const fitRef = useRef<FitAddon | null>(null);
+    const socketRef = useRef<WebSocket | null>(null);
+    const statusRef = useRef<TerminalStatus>("connecting");
+    const reconnectRequestedRef = useRef(false);
+    const pendingInputRef = useRef("");
+    const hasConnectedRef = useRef(false);
+    const [terminalReady, setTerminalReady] = useState(false);
+    const [connectionVersion, setConnectionVersion] = useState(0);
 
-  const writeSystemMessage = useCallback((message: string) => {
-    termRef.current?.writeln(`[system] ${message}`);
-  }, []);
+    const writeSystemMessage = useCallback((message: string) => {
+      termRef.current?.writeln(`[system] ${message}`);
+    }, []);
 
-  const handleReconnect = useCallback(() => {
-    setConnectionVersion((version) => version + 1);
-  }, []);
+    const handleReconnect = useCallback(() => {
+      setConnectionVersion((version) => version + 1);
+    }, []);
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      sendCommand: (command: string) => {
-        const socket = socketRef.current;
-        const payload = command.endsWith("\r") ? command : `${command}\r`;
+    useImperativeHandle(
+      ref,
+      () => ({
+        sendCommand: (command: string) => {
+          const socket = socketRef.current;
+          const payload = command.endsWith("\r") ? command : `${command}\r`;
 
-        if (socket && socket.readyState === WebSocket.OPEN) {
-          socket.send(payload);
+          if (socket && socket.readyState === WebSocket.OPEN) {
+            socket.send(payload);
+            termRef.current?.focus();
+            return;
+          }
+
+          pendingInputRef.current += payload;
           termRef.current?.focus();
+
+          if (statusRef.current === "connecting") {
+            return;
+          }
+
+          if (!reconnectRequestedRef.current) {
+            reconnectRequestedRef.current = true;
+            writeSystemMessage("Reconnecting...");
+            handleReconnect();
+          }
+        },
+        focus: () => {
+          termRef.current?.focus();
+        },
+      }),
+      [handleReconnect, writeSystemMessage],
+    );
+
+    useEffect(() => {
+      if (!containerRef.current) return;
+
+      const term = new Terminal({
+        cursorBlink: true,
+        convertEol: true,
+        fontSize: 14,
+        theme,
+      });
+
+      const fit = new FitAddon();
+      term.loadAddon(fit);
+
+      term.open(containerRef.current);
+      fit.fit();
+
+      termRef.current = term;
+      fitRef.current = fit;
+      setTerminalReady(true);
+
+      const onResize = () => fit.fit();
+      window.addEventListener("resize", onResize);
+
+      return () => {
+        window.removeEventListener("resize", onResize);
+        term.dispose();
+        setTerminalReady(false);
+      };
+    }, []);
+
+    useEffect(() => {
+      const wsUrl = "wss://terminal.omaredu.com/terminal";
+      const term = termRef.current;
+      if (!term || !terminalReady) return;
+
+      statusRef.current = "connecting";
+      const decoder = new TextDecoder();
+      const socket = new WebSocket(wsUrl);
+
+      const handleOpen = () => {
+        statusRef.current = "connected";
+
+        if (reconnectRequestedRef.current && hasConnectedRef.current) {
+          writeSystemMessage("Reconnected.");
+          term.clear();
+        }
+        reconnectRequestedRef.current = false;
+        hasConnectedRef.current = true;
+        if (pendingInputRef.current) {
+          socket.send(pendingInputRef.current);
+          pendingInputRef.current = "";
+        }
+      };
+      const handleMessage = (event: MessageEvent) => {
+        if (typeof event.data === "string") {
+          term.write(event.data);
+          return;
+        }
+        if (event.data instanceof ArrayBuffer) {
+          term.write(decoder.decode(event.data));
+          return;
+        }
+        if (event.data instanceof Blob) {
+          void event.data.arrayBuffer().then((buffer) => {
+            term.write(decoder.decode(buffer));
+          });
+        }
+      };
+      const handleClose = (event: CloseEvent) => {
+        statusRef.current = "disconnected";
+        reconnectRequestedRef.current = false;
+        const reason = event.reason?.trim() || "No reason provided";
+        writeSystemMessage(
+          `Disconnected (code ${event.code}, clean=${event.wasClean}): ${reason}`,
+        );
+      };
+      const handleError = () => {
+        statusRef.current = "error";
+        reconnectRequestedRef.current = false;
+        term.writeln("");
+        writeSystemMessage("Connection error. Type to reconnect.");
+      };
+
+      socket.addEventListener("open", handleOpen);
+      socket.addEventListener("message", handleMessage);
+      socket.addEventListener("close", handleClose);
+      socket.addEventListener("error", handleError);
+      socketRef.current = socket;
+
+      const inputDisposable = term.onData((data) => {
+        if (socket.readyState === WebSocket.OPEN) {
+          socket.send(data);
           return;
         }
 
-        pendingInputRef.current += payload;
-        termRef.current?.focus();
+        pendingInputRef.current += data;
 
         if (statusRef.current === "connecting") {
           return;
@@ -70,139 +182,46 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(function XTerm(
           writeSystemMessage("Reconnecting...");
           handleReconnect();
         }
-      },
-      focus: () => {
-        termRef.current?.focus();
-      },
-    }),
-    [handleReconnect, writeSystemMessage],
-  );
+      });
 
-  useEffect(() => {
-    if (!containerRef.current) return;
+      return () => {
+        inputDisposable.dispose();
+        socket.removeEventListener("open", handleOpen);
+        socket.removeEventListener("message", handleMessage);
+        socket.removeEventListener("close", handleClose);
+        socket.removeEventListener("error", handleError);
+        socket.close();
+        socketRef.current = null;
+      };
+    }, [connectionVersion, terminalReady, handleReconnect, writeSystemMessage]);
 
-    const term = new Terminal({
-      cursorBlink: true,
-      convertEol: true,
-      fontSize: 14,
-      theme,
-    });
+    const handleReset = useCallback(() => {
+      termRef.current?.reset();
+      handleReconnect();
+    }, [handleReconnect]);
 
-    const fit = new FitAddon();
-    term.loadAddon(fit);
-
-    term.open(containerRef.current);
-    fit.fit();
-
-    termRef.current = term;
-    fitRef.current = fit;
-    setTerminalReady(true);
-
-    const onResize = () => fit.fit();
-    window.addEventListener("resize", onResize);
-
-    return () => {
-      window.removeEventListener("resize", onResize);
-      term.dispose();
-      setTerminalReady(false);
-    };
-  }, []);
-
-  useEffect(() => {
-    const wsUrl = "wss://terminal.omaredu.com/terminal";
-    const term = termRef.current;
-    if (!term || !terminalReady) return;
-
-    statusRef.current = "connecting";
-    const decoder = new TextDecoder();
-    const socket = new WebSocket(wsUrl);
-
-    const handleOpen = () => {
-      statusRef.current = "connected";
-
-      if (reconnectRequestedRef.current && hasConnectedRef.current) {
-        writeSystemMessage("Reconnected.");
-        term.clear();
-      }
-      reconnectRequestedRef.current = false;
-      hasConnectedRef.current = true;
-      if (pendingInputRef.current) {
-        socket.send(pendingInputRef.current);
-        pendingInputRef.current = "";
-      }
-    };
-    const handleMessage = (event: MessageEvent) => {
-      if (typeof event.data === "string") {
-        term.write(event.data);
-        return;
-      }
-      if (event.data instanceof ArrayBuffer) {
-        term.write(decoder.decode(event.data));
-        return;
-      }
-      if (event.data instanceof Blob) {
-        void event.data.arrayBuffer().then((buffer) => {
-          term.write(decoder.decode(buffer));
-        });
-      }
-    };
-    const handleClose = (event: CloseEvent) => {
-      statusRef.current = "disconnected";
-      reconnectRequestedRef.current = false;
-      const reason = event.reason?.trim() || "No reason provided";
-      writeSystemMessage(
-        `Disconnected (code ${event.code}, clean=${event.wasClean}): ${reason}`,
-      );
-    };
-    const handleError = () => {
-      statusRef.current = "error";
-      reconnectRequestedRef.current = false;
-      term.writeln("");
-      writeSystemMessage("Connection error. Type to reconnect.");
-    };
-
-    socket.addEventListener("open", handleOpen);
-    socket.addEventListener("message", handleMessage);
-    socket.addEventListener("close", handleClose);
-    socket.addEventListener("error", handleError);
-    socketRef.current = socket;
-
-    const inputDisposable = term.onData((data) => {
-      if (socket.readyState === WebSocket.OPEN) {
-        socket.send(data);
-        return;
-      }
-
-      pendingInputRef.current += data;
-
-      if (statusRef.current === "connecting") {
-        return;
-      }
-
-      if (!reconnectRequestedRef.current) {
-        reconnectRequestedRef.current = true;
-        writeSystemMessage("Reconnecting...");
-        handleReconnect();
-      }
-    });
-
-    return () => {
-      inputDisposable.dispose();
-      socket.removeEventListener("open", handleOpen);
-      socket.removeEventListener("message", handleMessage);
-      socket.removeEventListener("close", handleClose);
-      socket.removeEventListener("error", handleError);
-      socket.close();
-      socketRef.current = null;
-    };
-  }, [connectionVersion, terminalReady, handleReconnect, writeSystemMessage]);
-
-  return (
-    <div
-      {...props}
-      className={`relative h-[400px] overflow-hidden m-5 ${props.className || ""}`}
-    >
-      <div ref={containerRef} className="h-full w-full" />
-    </div>
-  );
-});
+    return (
+      <div
+        {...props}
+        className={`relative h-[400px] overflow-hidden m-5 ${props.className || ""}`}
+      >
+        <button
+          onClick={handleReset}
+          className="absolute right-0 top-0 z-10 items-center text-foreground bg-white flex pl-2 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition"
+        >
+          <span>Reset</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="20px"
+            width="20px"
+            viewBox="0 -960 960 960"
+            fill="currentColor"
+          >
+            <path d="M440-142.77q-112.54-14.62-186.27-99.15Q180-326.46 180-440q0-61 24.08-116.88 24.08-55.89 67.46-98.2l42.77 42.77q-36.85 33.62-55.58 78.04Q240-489.85 240-440q0 88 56.19 155.12 56.19 67.11 143.81 82.11v60Zm80 .77v-60q86.62-17.54 143.31-83.96Q720-352.38 720-440q0-100-70-170t-170-70h-14.15l54 54-42.16 42.15L351.54-710l126.15-126.15L519.85-794l-54 54H480q125.54 0 212.77 87.23T780-440q0 112.92-73.92 197.08Q632.15-158.77 520-142Z" />
+          </svg>
+        </button>
+        <div ref={containerRef} className="h-full w-full" />
+      </div>
+    );
+  },
+);
