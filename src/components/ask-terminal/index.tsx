@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { useTerminalServiceHealth } from "./useTerminalServiceHealth";
 import CommandShortcuts from "./command-shortcuts";
 import { XTerm, XTermHandle } from "./xterm";
+import Loader from "./loader";
 
 import theme from "./themes/ayu-dark.json";
 
@@ -20,27 +21,7 @@ export default function AskTerminal(props: AskTerminalProps) {
     >
       {loading && (
         <div className="absolute inset-0 z-20 flex flex-col gap-3 items-center justify-center bg-black/50 text-white/70">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            className="animate-[spin_2s_infinite_linear]"
-          >
-            <path d="M12 2v4" />
-            <path d="m16.2 7.8 2.9-2.9" />
-            <path d="M18 12h4" />
-            <path d="m16.2 16.2 2.9 2.9" />
-            <path d="M12 18v4" />
-            <path d="m4.9 19.1 2.9-2.9" />
-            <path d="M2 12h4" />
-            <path d="m4.9 4.9 2.9 2.9" />
-          </svg>
+          <Loader />
           <span className="text-sm">Checking terminal service</span>
         </div>
       )}
