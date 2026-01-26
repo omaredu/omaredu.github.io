@@ -59,6 +59,15 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
     };
   }, [updateScrollState]);
 
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => updateScrollState());
+    return () => cancelAnimationFrame(frame);
+  }, [loading, shortcuts.length, updateScrollState]);
+
   return (
     <section {...rest}>
       <div className="mb-4 flex p-4 pb-0">
