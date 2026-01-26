@@ -72,7 +72,7 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
             Click a shortcut to run the command in the terminal.
           </p>
         </div>
-        <div className="flex gap-2 ml-auto px-2">
+        <div className="hidden md:flex gap-2 ml-auto px-2">
           {/* TODO: implement paginated scroll through the list with these buttons */}
           <button className="text-white">
             <svg
