@@ -7,21 +7,24 @@ import {
   type TerminalStatus,
 } from "./terminal-status-indicator";
 
+import theme from "./themes/ayu-dark.json";
+
 export function XTerm() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const termRef = useRef<Terminal | null>(null);
   const fitRef = useRef<FitAddon | null>(null);
   const [status, setStatus] = useState<TerminalStatus>("connecting");
+  const [terminalReady, setTerminalReady] = useState(false);
+  const [connectionVersion, setConnectionVersion] = useState(0);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const wsUrl = "ws://terminal.omaredu.com/terminal";
     const term = new Terminal({
       cursorBlink: true,
       convertEol: true,
       fontSize: 14,
-      // theme: { background: "#0b0f14" }, // optional
+      theme,
     });
 
     const fit = new FitAddon();
@@ -32,7 +35,24 @@ export function XTerm() {
 
     termRef.current = term;
     fitRef.current = fit;
+    setTerminalReady(true);
 
+    const onResize = () => fit.fit();
+    window.addEventListener("resize", onResize);
+
+    return () => {
+      window.removeEventListener("resize", onResize);
+      term.dispose();
+      setTerminalReady(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    const wsUrl = "ws://terminal.omaredu.com/terminal";
+    const term = termRef.current;
+    if (!term || !terminalReady) return;
+
+    setStatus("connecting");
     const decoder = new TextDecoder();
     const socket = new WebSocket(wsUrl);
 
@@ -72,24 +92,22 @@ export function XTerm() {
       }
     });
 
-    const onResize = () => fit.fit();
-    window.addEventListener("resize", onResize);
-
     return () => {
-      window.removeEventListener("resize", onResize);
       inputDisposable.dispose();
       socket.removeEventListener("open", handleOpen);
       socket.removeEventListener("message", handleMessage);
       socket.removeEventListener("close", handleClose);
       socket.removeEventListener("error", handleError);
       socket.close();
-      term.dispose();
     };
-  }, []);
+  }, [connectionVersion, terminalReady]);
+
+  const handleReconnect = () => {
+    setConnectionVersion((version) => version + 1);
+  };
 
   return (
-    <div className="relative w-dvw md:w-full h-[350px] overflow-hidden my-5">
-      <TerminalStatusIndicator status={status} />
+    <div className="relative h-[400px] overflow-hidden m-5">
       <div ref={containerRef} className="h-full w-full" />
     </div>
   );
