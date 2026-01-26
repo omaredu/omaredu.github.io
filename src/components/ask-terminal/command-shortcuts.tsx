@@ -65,26 +65,63 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
 
   return (
     <section {...rest}>
-      <div className="mb-4">
-        <p className="font-semibold text-white">Command Shortcuts</p>
-        <p className="text-white/70">
-          Click a shortcut to run the command in the terminal.
-        </p>
-      </div>
-      <div {...rest} className="flex gap-4">
-        {commandShortcuts.map((shortcut) => (
-          <button
-            key={shortcut.command}
-            type="button"
-            onClick={() => onCommand?.(shortcut.command)}
-            className="flex flex-col bg-white rounded ring-1 ring-border/10 w-auto min-w-[200px] max-w-[250px] h-[88px] p-4 text-left shadow-sm flex-shrink-0"
-          >
-            <p className="font-medium">{shortcut.title}</p>
-            <p className="mt-1 text-sm text-secondary">
-              {shortcut.description}
-            </p>
+      <div className="mb-4 flex p-4 pb-0">
+        <div>
+          <p className="font-semibold text-white">Command Shortcuts</p>
+          <p className="text-white/70">
+            Click a shortcut to run the command in the terminal.
+          </p>
+        </div>
+        <div className="flex gap-2 ml-auto px-2">
+          {/* TODO: implement paginated scroll through the list with these buttons */}
+          <button className="text-white">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="h-[18px] w-[18px]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
           </button>
-        ))}
+          <button className="text-white">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              className="h-[18px] w-[18px]"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M9 6l6 6-6 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div className="overflow-x-auto pb-4">
+        <div className="flex gap-4">
+          <div className="w-1 flex-shrink-0" />
+          {commandShortcuts.map((shortcut) => (
+            <button
+              key={shortcut.command}
+              type="button"
+              onClick={() => onCommand?.(shortcut.command)}
+              className="flex flex-col bg-white rounded ring-1 ring-border/10 w-auto min-w-[200px] max-w-[250px] h-[88px] p-4 text-left shadow-sm flex-shrink-0"
+            >
+              <p className="font-medium">{shortcut.title}</p>
+              <p className="mt-1 text-sm text-secondary">
+                {shortcut.description}
+              </p>
+            </button>
+          ))}
+          <div className="w-1 flex-shrink-0" />
+        </div>
       </div>
     </section>
   );
