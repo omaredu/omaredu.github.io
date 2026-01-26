@@ -16,9 +16,12 @@ export function useTerminalServiceHealth() {
     try {
       setLoading(true);
 
-      const response = await fetch(`http://${TERMINAL_BACKEND_HOST}/health`, {
-        signal: controller.signal,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_PUBLIC_TERMINAL_PROTOCOL}://${TERMINAL_BACKEND_HOST}/health`,
+        {
+          signal: controller.signal,
+        },
+      );
 
       if (!response.ok) {
         throw new Error(`Health check failed: ${response.statusText}`);

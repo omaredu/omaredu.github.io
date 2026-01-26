@@ -59,6 +59,8 @@ export default function AskTerminal(props: AskTerminalProps) {
       <CommandShortcuts
         className={`transition duration-500 border-t border-white/20 ${status.healthy && !loading ? "opacity-100" : "opacity-0"}`}
         onCommand={(command) => {
+          terminalRef.current?.sendCommand("\x03");
+          terminalRef.current?.sendCommand("clear");
           terminalRef.current?.sendCommand(command);
         }}
       />

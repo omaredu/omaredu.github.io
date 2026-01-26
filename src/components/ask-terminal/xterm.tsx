@@ -15,7 +15,8 @@ import theme from "./themes/ayu-dark.json";
 
 type TerminalStatus = "connecting" | "connected" | "disconnected" | "error";
 
-export const TERMINAL_BACKEND_HOST = "localhost:8080";
+export const TERMINAL_BACKEND_HOST =
+  import.meta.env.VITE_PUBLIC_TERMINAL_HOST || "localhost:8080";
 
 export interface XTermHandle {
   sendCommand: (command: string) => void;
@@ -146,8 +147,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
     }, [isTermLive]);
 
     useEffect(() => {
-      // const wsUrl = `wss://${TERMINAL_BACKEND_HOST}/terminal`;
-      const wsUrl = `ws://${TERMINAL_BACKEND_HOST}/terminal`;
+      const wsUrl = `${import.meta.env.VITE_PUBLIC_TERMINAL_WS_PROTOCOL}://${TERMINAL_BACKEND_HOST}/terminal`;
       const term = termRef.current;
       if (!terminalReady || !isTermLive(term)) return;
 

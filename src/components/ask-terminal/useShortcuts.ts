@@ -16,7 +16,9 @@ export function useShortcuts() {
     try {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulated delay
-      const response = await fetch(`http://${TERMINAL_BACKEND_HOST}/shortcuts`);
+      const response = await fetch(
+        `${import.meta.env.VITE_PUBLIC_TERMINAL_PROTOCOL}://${TERMINAL_BACKEND_HOST}/shortcuts`,
+      );
       if (!response.ok) {
         throw new Error(`Error fetching shortcuts: ${response.statusText}`);
       }
