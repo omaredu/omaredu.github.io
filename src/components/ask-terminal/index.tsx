@@ -17,7 +17,7 @@ export default function AskTerminal(props: AskTerminalProps) {
     <section
       {...props}
       style={{ backgroundColor: theme.background }}
-      className={`relative flex flex-col overflow-hidden ring-1 ring-border/10 rounded shadow-sm ${props.className}`}
+      className={`relative flex flex-col overflow-hidden md:rounded terminal-container ${props.className}`}
     >
       {loading && (
         <div className="absolute inset-0 z-20 flex flex-col gap-3 items-center justify-center bg-black/50 text-white/70">

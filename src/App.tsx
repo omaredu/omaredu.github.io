@@ -268,14 +268,14 @@ function App() {
       </section>
       <section
         id="faq"
-        className="mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]"
+        className="mt-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px] mx-0"
       >
         <Title
           className="max-w-[335px]"
           title="🧑‍💻 Any more questions? Ask the terminal!"
           subtitle="Explore my case studies and ask any questions you have about my work."
         />
-        <AskTerminal />
+        <AskTerminal className="-mx-[20px] md:mx-0" />
       </section>
       <section className="my-[50px] flex flex-col gap-[30px] md:w-[640px] md:max-w-[640px]">
         <Title

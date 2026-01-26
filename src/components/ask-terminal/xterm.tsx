@@ -260,7 +260,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
       >
         <button
           onClick={handleReset}
-          className="absolute right-0 top-0 z-10 items-center text-foreground bg-white flex pl-2 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition"
+          className="absolute bottom-0 md:bottom-auto right-0 md:top-0 z-10 items-center text-foreground bg-white flex pl-2 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition"
         >
           <span>
             {status === "disconnected" || status === "error"
