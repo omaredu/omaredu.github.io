@@ -1,3 +1,6 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+import type { HTMLAttributes } from "react";
+
 const commandShortcuts = [
   {
     command: "help [command]",
@@ -56,25 +59,75 @@ const commandShortcuts = [
   },
 ];
 
-export interface CommandShortcutsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CommandShortcutsProps extends HTMLAttributes<HTMLDivElement> {
   onCommand?: (command: string) => void;
 }
 
 export default function CommandShortcuts(props: CommandShortcutsProps) {
   const { onCommand, ...rest } = props;
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const updateScrollState = useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const maxScrollLeft = container.scrollWidth - container.clientWidth;
+    setCanScrollLeft(container.scrollLeft > 0);
+    setCanScrollRight(container.scrollLeft < maxScrollLeft - 1);
+  }, []);
+
+  const handlePaginatedScroll = useCallback((direction: "left" | "right") => {
+    const container = scrollContainerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const scrollAmount = container.clientWidth;
+    const nextScrollLeft =
+      direction === "left"
+        ? container.scrollLeft - scrollAmount
+        : container.scrollLeft + scrollAmount;
+
+    container.scrollTo({ left: nextScrollLeft, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) {
+      return;
+    }
+
+    updateScrollState();
+
+    const handleScroll = () => updateScrollState();
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
+  }, [updateScrollState]);
 
   return (
     <section {...rest}>
       <div className="mb-4 flex p-4 pb-0">
         <div>
           <p className="font-semibold text-white">Command Shortcuts</p>
-          <p className="text-white/70">
-            Click a shortcut to run the command in the terminal.
-          </p>
+          <p className="text-white/70">Quick ways to explore without typing.</p>
         </div>
         <div className="hidden md:flex gap-2 ml-auto px-2">
-          {/* TODO: implement paginated scroll through the list with these buttons */}
-          <button className="text-white">
+          <button
+            type="button"
+            className="text-white disabled:opacity-40 disabled:cursor-not-allowed"
+            onClick={() => handlePaginatedScroll("left")}
+            aria-label="Scroll shortcuts left"
+            disabled={!canScrollLeft}
+          >
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -88,7 +141,13 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
               <path d="M15 18l-6-6 6-6" />
             </svg>
           </button>
-          <button className="text-white">
+          <button
+            type="button"
+            className="text-white disabled:opacity-40 disabled:cursor-not-allowed"
+            onClick={() => handlePaginatedScroll("right")}
+            aria-label="Scroll shortcuts right"
+            disabled={!canScrollRight}
+          >
             <svg
               viewBox="0 0 24 24"
               aria-hidden="true"
@@ -104,7 +163,7 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto pb-4">
+      <div ref={scrollContainerRef} className="overflow-x-auto pb-4">
         <div className="flex gap-4">
           <div className="w-1 flex-shrink-0" />
           {commandShortcuts.map((shortcut) => (
