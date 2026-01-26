@@ -8,14 +8,18 @@ type Shortcut = {
   description: string;
 };
 
+type RequestStatus = "loading" | "success" | "error";
+
 export function useShortcuts() {
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<RequestStatus>("loading");
   const [shortcuts, setShortcuts] = useState<Shortcut[]>([]);
 
   const fetchShortcuts = async (): Promise<Shortcut[]> => {
     try {
       setLoading(true);
-      await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulated delay
+      setStatus("loading");
+      // await new Promise((resolve) => setTimeout(resolve, 5000)); // Simulated delay
       const response = await fetch(
         `${import.meta.env.VITE_PUBLIC_TERMINAL_PROTOCOL}://${TERMINAL_BACKEND_HOST}/shortcuts`,
       );
@@ -23,9 +27,11 @@ export function useShortcuts() {
         throw new Error(`Error fetching shortcuts: ${response.statusText}`);
       }
       const data = await response.json();
+      setStatus("success");
       return data as Shortcut[];
     } catch (error) {
       console.error("Failed to fetch shortcuts:", error);
+      setStatus("error");
       return [];
     } finally {
       setLoading(false);
@@ -41,5 +47,5 @@ export function useShortcuts() {
     loadShortcuts();
   }, []);
 
-  return { loading, shortcuts };
+  return { loading, status, shortcuts };
 }

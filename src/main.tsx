@@ -6,9 +6,10 @@ import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    {/* <PostHogProvider
+    <PostHogProvider
       apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
       options={{
+        cookieless_mode: "always",
         api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
         defaults: "2025-05-24",
         capture_exceptions: true, // This enables capturing exceptions using Error Tracking, set to false if you don't want this
@@ -18,8 +19,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         },
         debug: import.meta.env.MODE === "development",
       }}
-    > */}
-    <App />
-    {/*</PostHogProvider>*/}
+    >
+      <App />
+    </PostHogProvider>
   </React.StrictMode>,
 );

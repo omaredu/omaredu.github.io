@@ -13,7 +13,7 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
-  const { shortcuts, loading } = useShortcuts();
+  const { shortcuts, loading, status } = useShortcuts();
 
   const updateScrollState = useCallback(() => {
     const container = scrollContainerRef.current;
@@ -32,7 +32,7 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
       return;
     }
 
-    const scrollAmount = container.clientWidth;
+    const scrollAmount = container.clientWidth * 0.5;
     const nextScrollLeft =
       direction === "left"
         ? container.scrollLeft - scrollAmount
@@ -125,8 +125,35 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
       >
         <div className="flex gap-4">
           <div className="w-1 flex-shrink-0 h-[88px]" />
-          {loading &&
-            shortcuts.length === 0 &&
+          {status === "error" && (
+            <div className=" text-white/70 flex flex-col justify-center h-[88px]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" x2="12" y1="8" y2="12" />
+                <line x1="12" x2="12.01" y1="16" y2="16" />
+              </svg>
+              <div className="mt-2 flex flex-col">
+                <span className="text-white">
+                  Seems like I’m having trouble fetching shortcuts.
+                </span>
+                <span className="text-sm">
+                  Please try again later. You can still use the terminal though!
+                </span>
+              </div>
+            </div>
+          )}
+          {shortcuts.length === 0 &&
+            status !== "loading" &&
             [300, 200, 250, 300].map((width, index) => (
               <div
                 key={index}
@@ -137,27 +164,28 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
                 }}
               />
             ))}
-          {shortcuts.map((shortcut) => (
-            <button
-              key={shortcut.command}
-              type="button"
-              onClick={() => onCommand?.(shortcut.command)}
-              className="group flex flex-col relative justify-end bg-white rounded ring-1 ring-border/10 w-auto min-w-[200px] max-w-[300px] h-[88px] p-4 pr-6 text-left shadow-sm flex-shrink-0 active:scale-[0.98] transition"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                height="22px"
-                viewBox="0 -960 960 960"
-                width="22px"
-                fill="currentColor"
-                className="absolute top-3 right-3 text-slate-300 group-hover:text-slate-500 transition"
+          {status === "success" &&
+            shortcuts.map((shortcut) => (
+              <button
+                key={shortcut.command}
+                type="button"
+                onClick={() => onCommand?.(shortcut.command)}
+                className="group flex flex-col relative justify-end bg-white rounded ring-1 ring-border/10 w-auto min-w-[200px] max-w-[300px] h-[88px] p-4 pr-6 text-left shadow-sm flex-shrink-0 active:scale-[0.98] transition"
               >
-                <path d="M251.77-254.23 210-296l393.62-394H245.77v-60h460v460h-60v-357.85l-394 393.62Z" />
-              </svg>
-              <p className="font-medium">{shortcut.title}</p>
-              <p className="text-sm text-secondary">{shortcut.description}</p>
-            </button>
-          ))}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="22px"
+                  viewBox="0 -960 960 960"
+                  width="22px"
+                  fill="currentColor"
+                  className="absolute top-3 right-3 text-slate-300 group-hover:text-slate-500 transition"
+                >
+                  <path d="M251.77-254.23 210-296l393.62-394H245.77v-60h460v460h-60v-357.85l-394 393.62Z" />
+                </svg>
+                <p className="font-medium">{shortcut.title}</p>
+                <p className="text-sm text-secondary">{shortcut.description}</p>
+              </button>
+            ))}
           <div className="w-1 flex-shrink-0" />
         </div>
       </div>
