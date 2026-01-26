@@ -1,4 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
 
@@ -8,17 +15,68 @@ import theme from "./themes/ayu-dark.json";
 
 type TerminalStatus = "connecting" | "connected" | "disconnected" | "error";
 
-export function XTerm() {
+export interface XTermHandle {
+  sendCommand: (command: string) => void;
+  focus: () => void;
+}
+
+export interface XTermProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+export const XTerm = forwardRef<XTermHandle, XTermProps>(function XTerm(
+  props,
+  ref,
+) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const termRef = useRef<Terminal | null>(null);
   const fitRef = useRef<FitAddon | null>(null);
+  const socketRef = useRef<WebSocket | null>(null);
   const statusRef = useRef<TerminalStatus>("connecting");
   const reconnectRequestedRef = useRef(false);
   const pendingInputRef = useRef("");
   const hasConnectedRef = useRef(false);
-  const [status, setStatus] = useState<TerminalStatus>("connecting");
   const [terminalReady, setTerminalReady] = useState(false);
   const [connectionVersion, setConnectionVersion] = useState(0);
+
+  const writeSystemMessage = useCallback((message: string) => {
+    termRef.current?.writeln(`[system] ${message}`);
+  }, []);
+
+  const handleReconnect = useCallback(() => {
+    setConnectionVersion((version) => version + 1);
+  }, []);
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      sendCommand: (command: string) => {
+        const socket = socketRef.current;
+        const payload = command.endsWith("\r") ? command : `${command}\r`;
+
+        if (socket && socket.readyState === WebSocket.OPEN) {
+          socket.send(payload);
+          termRef.current?.focus();
+          return;
+        }
+
+        pendingInputRef.current += payload;
+        termRef.current?.focus();
+
+        if (statusRef.current === "connecting") {
+          return;
+        }
+
+        if (!reconnectRequestedRef.current) {
+          reconnectRequestedRef.current = true;
+          writeSystemMessage("Reconnecting...");
+          handleReconnect();
+        }
+      },
+      focus: () => {
+        termRef.current?.focus();
+      },
+    }),
+    [handleReconnect, writeSystemMessage],
+  );
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -56,17 +114,11 @@ export function XTerm() {
     if (!term || !terminalReady) return;
 
     statusRef.current = "connecting";
-    setStatus("connecting");
     const decoder = new TextDecoder();
     const socket = new WebSocket(wsUrl);
 
-    const writeSystemMessage = (message: string) => {
-      term.writeln(`[system] ${message}`);
-    };
-
     const handleOpen = () => {
       statusRef.current = "connected";
-      setStatus("connected");
 
       if (reconnectRequestedRef.current && hasConnectedRef.current) {
         writeSystemMessage("Reconnected.");
@@ -96,7 +148,6 @@ export function XTerm() {
     };
     const handleClose = (event: CloseEvent) => {
       statusRef.current = "disconnected";
-      setStatus("disconnected");
       reconnectRequestedRef.current = false;
       const reason = event.reason?.trim() || "No reason provided";
       writeSystemMessage(
@@ -105,7 +156,6 @@ export function XTerm() {
     };
     const handleError = () => {
       statusRef.current = "error";
-      setStatus("error");
       reconnectRequestedRef.current = false;
       term.writeln("");
       writeSystemMessage("Connection error. Type to reconnect.");
@@ -115,6 +165,7 @@ export function XTerm() {
     socket.addEventListener("message", handleMessage);
     socket.addEventListener("close", handleClose);
     socket.addEventListener("error", handleError);
+    socketRef.current = socket;
 
     const inputDisposable = term.onData((data) => {
       if (socket.readyState === WebSocket.OPEN) {
@@ -142,16 +193,16 @@ export function XTerm() {
       socket.removeEventListener("close", handleClose);
       socket.removeEventListener("error", handleError);
       socket.close();
+      socketRef.current = null;
     };
-  }, [connectionVersion, terminalReady]);
-
-  const handleReconnect = () => {
-    setConnectionVersion((version) => version + 1);
-  };
+  }, [connectionVersion, terminalReady, handleReconnect, writeSystemMessage]);
 
   return (
-    <div className="relative h-[400px] overflow-hidden m-5">
+    <div
+      {...props}
+      className={`relative h-[400px] overflow-hidden m-5 ${props.className || ""}`}
+    >
       <div ref={containerRef} className="h-full w-full" />
     </div>
   );
-}
+});
