@@ -76,7 +76,7 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
           <p className="text-white/70">Quick ways to explore without typing.</p>
         </div>
         <div className="hidden md:flex gap-2 ml-auto px-2 text-white items-center">
-          {loading && <Loader size={20} />}
+          {loading && <Loader size={18} />}
           <button
             type="button"
             className="disabled:opacity-40 disabled:cursor-not-allowed"
@@ -125,26 +125,18 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
       >
         <div className="flex gap-4">
           <div className="w-1 flex-shrink-0 h-[88px]" />
-          {loading && shortcuts.length === 0 && (
-            <>
+          {loading &&
+            shortcuts.length === 0 &&
+            [300, 200, 250, 300].map((width, index) => (
               <div
+                key={index}
                 className="rounded bg-white/10 min-w-[300px] h-[88px] animate-pulse"
-                style={{ animationDelay: "0ms" }}
+                style={{
+                  animationDelay: `${index * 150}ms`,
+                  minWidth: `${width}px`,
+                }}
               />
-              <div
-                className="rounded bg-white/10 min-w-[200px] h-[88px] animate-pulse"
-                style={{ animationDelay: "150ms" }}
-              />
-              <div
-                className="rounded bg-white/10 min-w-[250px] h-[88px] animate-pulse"
-                style={{ animationDelay: "300ms" }}
-              />
-              <div
-                className="rounded bg-white/10 min-w-[300px] h-[88px] animate-pulse"
-                style={{ animationDelay: "450ms" }}
-              />
-            </>
-          )}
+            ))}
           {shortcuts.map((shortcut) => (
             <button
               key={shortcut.command}

@@ -29,6 +29,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
     const containerRef = useRef<HTMLDivElement | null>(null);
     const termRef = useRef<Terminal | null>(null);
     const fitRef = useRef<FitAddon | null>(null);
+    const resizeHandlerRef = useRef<(() => void) | null>(null);
     const socketRef = useRef<WebSocket | null>(null);
     const statusRef = useRef<TerminalStatus>("connecting");
     const reconnectRequestedRef = useRef(false);
@@ -38,9 +39,20 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
     const [connectionVersion, setConnectionVersion] = useState(0);
     const [status, setStatus] = useState<TerminalStatus>("connecting");
 
-    const writeSystemMessage = useCallback((message: string) => {
-      termRef.current?.writeln(`[system] ${message}`);
+    const isTermLive = useCallback((term: Terminal | null) => {
+      return Boolean(
+        term && term === termRef.current && term.element?.isConnected,
+      );
     }, []);
+
+    const writeSystemMessage = useCallback(
+      (message: string) => {
+        const term = termRef.current;
+        if (!isTermLive(term)) return;
+        term?.writeln(`[system] ${message}`);
+      },
+      [isTermLive],
+    );
 
     const handleReconnect = useCallback(() => {
       setConnectionVersion((version) => version + 1);
@@ -80,7 +92,13 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
     );
 
     useEffect(() => {
-      if (!containerRef.current) return;
+      const container = containerRef.current;
+      if (!container) return;
+
+      if (termRef.current && fitRef.current && isTermLive(termRef.current)) {
+        fitRef.current.fit();
+        return;
+      }
 
       const term = new Terminal({
         cursorBlink: true,
@@ -91,41 +109,60 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
 
       const fit = new FitAddon();
       term.loadAddon(fit);
-
-      term.open(containerRef.current);
-      fit.fit();
+      term.open(container);
 
       termRef.current = term;
       fitRef.current = fit;
       setTerminalReady(true);
 
-      const onResize = () => fit.fit();
+      const onResize = () => {
+        if (!isTermLive(term)) return;
+        fitRef.current?.fit();
+      };
+
+      resizeHandlerRef.current = onResize;
       window.addEventListener("resize", onResize);
 
+      const rafId = requestAnimationFrame(() => {
+        if (!isTermLive(term)) return;
+        fitRef.current?.fit();
+      });
+
       return () => {
-        window.removeEventListener("resize", onResize);
+        const shouldDispose =
+          !containerRef.current || !containerRef.current.isConnected;
+        if (!shouldDispose) return;
+
+        if (resizeHandlerRef.current) {
+          window.removeEventListener("resize", resizeHandlerRef.current);
+          resizeHandlerRef.current = null;
+        }
+        cancelAnimationFrame(rafId);
+        fit.dispose();
         term.dispose();
-        setTerminalReady(false);
+        termRef.current = null;
+        fitRef.current = null;
       };
-    }, []);
+    }, [isTermLive]);
 
     useEffect(() => {
       // const wsUrl = `wss://${TERMINAL_BACKEND_HOST}/terminal`;
       const wsUrl = `ws://${TERMINAL_BACKEND_HOST}/terminal`;
       const term = termRef.current;
-      if (!term || !terminalReady) return;
+      if (!terminalReady || !isTermLive(term)) return;
 
       statusRef.current = "connecting";
       const decoder = new TextDecoder();
       const socket = new WebSocket(wsUrl);
 
       const handleOpen = () => {
+        if (!isTermLive(term)) return;
         statusRef.current = "connected";
         setStatus("connected");
 
         if (reconnectRequestedRef.current && hasConnectedRef.current) {
           writeSystemMessage("Reconnected.");
-          term.clear();
+          term?.clear();
         }
         reconnectRequestedRef.current = false;
         hasConnectedRef.current = true;
@@ -135,21 +172,23 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
         }
       };
       const handleMessage = (event: MessageEvent) => {
+        if (!isTermLive(term)) return;
         if (typeof event.data === "string") {
-          term.write(event.data);
+          term?.write(event.data);
           return;
         }
         if (event.data instanceof ArrayBuffer) {
-          term.write(decoder.decode(event.data));
+          term?.write(decoder.decode(event.data));
           return;
         }
         if (event.data instanceof Blob) {
           void event.data.arrayBuffer().then((buffer) => {
-            term.write(decoder.decode(buffer));
+            term?.write(decoder.decode(buffer));
           });
         }
       };
       const handleClose = (event: CloseEvent) => {
+        if (!isTermLive(term)) return;
         statusRef.current = "disconnected";
         setStatus("disconnected");
         reconnectRequestedRef.current = false;
@@ -159,10 +198,11 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
         );
       };
       const handleError = () => {
+        if (!isTermLive(term)) return;
         statusRef.current = "error";
         setStatus("error");
         reconnectRequestedRef.current = false;
-        term.writeln("");
+        term?.writeln("");
         writeSystemMessage("Connection error. Type to reconnect.");
       };
 
@@ -172,7 +212,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
       socket.addEventListener("error", handleError);
       socketRef.current = socket;
 
-      const inputDisposable = term.onData((data) => {
+      const inputDisposable = term?.onData((data) => {
         if (socket.readyState === WebSocket.OPEN) {
           socket.send(data);
           return;
@@ -192,7 +232,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
       });
 
       return () => {
-        inputDisposable.dispose();
+        inputDisposable?.dispose();
         socket.removeEventListener("open", handleOpen);
         socket.removeEventListener("message", handleMessage);
         socket.removeEventListener("close", handleClose);
@@ -200,7 +240,13 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
         socket.close();
         socketRef.current = null;
       };
-    }, [connectionVersion, terminalReady, handleReconnect, writeSystemMessage]);
+    }, [
+      connectionVersion,
+      terminalReady,
+      handleReconnect,
+      writeSystemMessage,
+      isTermLive,
+    ]);
 
     const handleReset = useCallback(() => {
       termRef.current?.reset();
