@@ -15,6 +15,8 @@ import theme from "./themes/ayu-dark.json";
 
 type TerminalStatus = "connecting" | "connected" | "disconnected" | "error";
 
+export const TERMINAL_BACKEND_HOST = "localhost:8080";
+
 export interface XTermHandle {
   sendCommand: (command: string) => void;
   focus: () => void;
@@ -34,6 +36,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
     const hasConnectedRef = useRef(false);
     const [terminalReady, setTerminalReady] = useState(false);
     const [connectionVersion, setConnectionVersion] = useState(0);
+    const [status, setStatus] = useState<TerminalStatus>("connecting");
 
     const writeSystemMessage = useCallback((message: string) => {
       termRef.current?.writeln(`[system] ${message}`);
@@ -107,7 +110,8 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
     }, []);
 
     useEffect(() => {
-      const wsUrl = "wss://terminal.omaredu.com/terminal";
+      // const wsUrl = `wss://${TERMINAL_BACKEND_HOST}/terminal`;
+      const wsUrl = `ws://${TERMINAL_BACKEND_HOST}/terminal`;
       const term = termRef.current;
       if (!term || !terminalReady) return;
 
@@ -117,6 +121,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
 
       const handleOpen = () => {
         statusRef.current = "connected";
+        setStatus("connected");
 
         if (reconnectRequestedRef.current && hasConnectedRef.current) {
           writeSystemMessage("Reconnected.");
@@ -146,6 +151,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
       };
       const handleClose = (event: CloseEvent) => {
         statusRef.current = "disconnected";
+        setStatus("disconnected");
         reconnectRequestedRef.current = false;
         const reason = event.reason?.trim() || "No reason provided";
         writeSystemMessage(
@@ -154,6 +160,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
       };
       const handleError = () => {
         statusRef.current = "error";
+        setStatus("error");
         reconnectRequestedRef.current = false;
         term.writeln("");
         writeSystemMessage("Connection error. Type to reconnect.");
@@ -209,7 +216,11 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
           onClick={handleReset}
           className="absolute right-0 top-0 z-10 items-center text-foreground bg-white flex pl-2 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition"
         >
-          <span>Reset session</span>
+          <span>
+            {status === "disconnected" || status === "error"
+              ? "Reconnect"
+              : "Reset session"}
+          </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             height="20px"

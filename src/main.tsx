@@ -6,7 +6,7 @@ import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <PostHogProvider
+    {/* <PostHogProvider
       apiKey={import.meta.env.VITE_PUBLIC_POSTHOG_KEY}
       options={{
         api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
@@ -18,8 +18,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         },
         debug: import.meta.env.MODE === "development",
       }}
-    >
-      <App />
-    </PostHogProvider>
+    > */}
+    <App />
+    {/*</PostHogProvider>*/}
   </React.StrictMode>,
 );
