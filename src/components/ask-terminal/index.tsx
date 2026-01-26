@@ -34,9 +34,9 @@ export default function AskTerminal(props: AskTerminalProps) {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           >
             <path d="M12 19h8" />
             <path d="m4 17 6-6-6-6" />
