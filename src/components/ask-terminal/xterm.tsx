@@ -1,18 +1,21 @@
 import { useEffect, useRef, useState } from "react";
 import { Terminal } from "xterm";
 import { FitAddon } from "xterm-addon-fit";
+
 import "xterm/css/xterm.css";
-import {
-  TerminalStatusIndicator,
-  type TerminalStatus,
-} from "./terminal-status-indicator";
 
 import theme from "./themes/ayu-dark.json";
+
+type TerminalStatus = "connecting" | "connected" | "disconnected" | "error";
 
 export function XTerm() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const termRef = useRef<Terminal | null>(null);
   const fitRef = useRef<FitAddon | null>(null);
+  const statusRef = useRef<TerminalStatus>("connecting");
+  const reconnectRequestedRef = useRef(false);
+  const pendingInputRef = useRef("");
+  const hasConnectedRef = useRef(false);
   const [status, setStatus] = useState<TerminalStatus>("connecting");
   const [terminalReady, setTerminalReady] = useState(false);
   const [connectionVersion, setConnectionVersion] = useState(0);
@@ -48,16 +51,33 @@ export function XTerm() {
   }, []);
 
   useEffect(() => {
-    const wsUrl = "ws://terminal.omaredu.com/terminal";
+    const wsUrl = "wss://terminal.omaredu.com/terminal";
     const term = termRef.current;
     if (!term || !terminalReady) return;
 
+    statusRef.current = "connecting";
     setStatus("connecting");
     const decoder = new TextDecoder();
     const socket = new WebSocket(wsUrl);
 
+    const writeSystemMessage = (message: string) => {
+      term.writeln(`[system] ${message}`);
+    };
+
     const handleOpen = () => {
+      statusRef.current = "connected";
       setStatus("connected");
+
+      if (reconnectRequestedRef.current && hasConnectedRef.current) {
+        writeSystemMessage("Reconnected.");
+        term.clear();
+      }
+      reconnectRequestedRef.current = false;
+      hasConnectedRef.current = true;
+      if (pendingInputRef.current) {
+        socket.send(pendingInputRef.current);
+        pendingInputRef.current = "";
+      }
     };
     const handleMessage = (event: MessageEvent) => {
       if (typeof event.data === "string") {
@@ -74,11 +94,21 @@ export function XTerm() {
         });
       }
     };
-    const handleClose = () => {
+    const handleClose = (event: CloseEvent) => {
+      statusRef.current = "disconnected";
       setStatus("disconnected");
+      reconnectRequestedRef.current = false;
+      const reason = event.reason?.trim() || "No reason provided";
+      writeSystemMessage(
+        `Disconnected (code ${event.code}, clean=${event.wasClean}): ${reason}`,
+      );
     };
     const handleError = () => {
+      statusRef.current = "error";
       setStatus("error");
+      reconnectRequestedRef.current = false;
+      term.writeln("");
+      writeSystemMessage("Connection error. Type to reconnect.");
     };
 
     socket.addEventListener("open", handleOpen);
@@ -89,6 +119,19 @@ export function XTerm() {
     const inputDisposable = term.onData((data) => {
       if (socket.readyState === WebSocket.OPEN) {
         socket.send(data);
+        return;
+      }
+
+      pendingInputRef.current += data;
+
+      if (statusRef.current === "connecting") {
+        return;
+      }
+
+      if (!reconnectRequestedRef.current) {
+        reconnectRequestedRef.current = true;
+        writeSystemMessage("Reconnecting...");
+        handleReconnect();
       }
     });
 
