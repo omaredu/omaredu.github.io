@@ -61,21 +61,31 @@ export interface CommandShortcutsProps extends React.HTMLAttributes<HTMLDivEleme
 }
 
 export default function CommandShortcuts(props: CommandShortcutsProps) {
-  const { className, onCommand, ...rest } = props;
+  const { onCommand, ...rest } = props;
 
   return (
-    <div {...rest} className={`flex gap-4 ${className}`}>
-      {commandShortcuts.map((shortcut) => (
-        <button
-          key={shortcut.command}
-          type="button"
-          onClick={() => onCommand?.(shortcut.command)}
-          className="flex flex-col rounded border border-border/10 w-auto min-w-[200px] max-w-[250px] h-[88px] p-4 text-left shadow-sm flex-shrink-0"
-        >
-          <p className="font-medium">{shortcut.title}</p>
-          <p className="mt-1 text-sm text-secondary">{shortcut.description}</p>
-        </button>
-      ))}
-    </div>
+    <section {...rest}>
+      <div className="mb-4">
+        <p className="font-semibold">Command Shortcuts</p>
+        <p className="text-secondary">
+          Click a shortcut to run the command in the terminal.
+        </p>
+      </div>
+      <div {...rest} className="flex gap-4">
+        {commandShortcuts.map((shortcut) => (
+          <button
+            key={shortcut.command}
+            type="button"
+            onClick={() => onCommand?.(shortcut.command)}
+            className="flex flex-col rounded border border-border/10 w-auto min-w-[200px] max-w-[250px] h-[88px] p-4 text-left shadow-sm flex-shrink-0"
+          >
+            <p className="font-medium">{shortcut.title}</p>
+            <p className="mt-1 text-sm text-secondary">
+              {shortcut.description}
+            </p>
+          </button>
+        ))}
+      </div>
+    </section>
   );
 }
