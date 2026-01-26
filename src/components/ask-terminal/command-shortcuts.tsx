@@ -66,8 +66,8 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
   return (
     <section {...rest}>
       <div className="mb-4">
-        <p className="font-semibold">Command Shortcuts</p>
-        <p className="text-secondary">
+        <p className="font-semibold text-white">Command Shortcuts</p>
+        <p className="text-white/70">
           Click a shortcut to run the command in the terminal.
         </p>
       </div>
@@ -77,7 +77,7 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
             key={shortcut.command}
             type="button"
             onClick={() => onCommand?.(shortcut.command)}
-            className="flex flex-col rounded border border-border/10 w-auto min-w-[200px] max-w-[250px] h-[88px] p-4 text-left shadow-sm flex-shrink-0"
+            className="flex flex-col bg-white rounded ring-1 ring-border/10 w-auto min-w-[200px] max-w-[250px] h-[88px] p-4 text-left shadow-sm flex-shrink-0"
           >
             <p className="font-medium">{shortcut.title}</p>
             <p className="mt-1 text-sm text-secondary">

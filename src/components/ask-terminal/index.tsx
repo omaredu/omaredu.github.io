@@ -11,16 +11,16 @@ export default function AskTerminal(props: AskTerminalProps) {
   const terminalRef = useRef<XTermHandle | null>(null);
 
   return (
-    <section>
-      <div
-        {...props}
-        style={{ backgroundColor: theme.background }}
-        className={`overflow-hidden border border-border/10 rounded shadow-sm ${props.className}`}
-      >
+    <section
+      {...props}
+      style={{ backgroundColor: theme.background }}
+      className={`flex flex-col overflow-hidden ring-1 ring-border/10 rounded shadow-sm ${props.className}`}
+    >
+      <div>
         <XTerm ref={terminalRef} />
       </div>
       <CommandShortcuts
-        className="mt-4"
+        className="p-4 border-t border-t-white/20"
         onCommand={(command) => {
           terminalRef.current?.sendCommand(command);
         }}
