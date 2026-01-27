@@ -21,9 +21,17 @@ export const TERMINAL_BACKEND_HOST =
 export interface XTermHandle {
   sendCommand: (command: string) => void;
   focus: () => void;
+  reconnect: () => void;
 }
 
-export interface XTermProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface XTermState {
+  status: TerminalStatus;
+  connectionVersion: number;
+}
+
+export interface XTermProps extends React.HTMLAttributes<HTMLDivElement> {
+  onStateChange?: (state: XTermState) => void;
+}
 
 export const XTerm = forwardRef<XTermHandle, XTermProps>(
   function XTerm(props, ref) {
@@ -35,11 +43,17 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
     const statusRef = useRef<TerminalStatus>("connecting");
     const reconnectRequestedRef = useRef(false);
     const pendingInputRef = useRef("");
-    const pendingResizeRef = useRef<{ cols: number; rows: number } | null>(null);
+    const pendingResizeRef = useRef<{ cols: number; rows: number } | null>(
+      null,
+    );
     const hasConnectedRef = useRef(false);
     const [terminalReady, setTerminalReady] = useState(false);
     const [connectionVersion, setConnectionVersion] = useState(0);
     const [status, setStatus] = useState<TerminalStatus>("connecting");
+
+    useEffect(() => {
+      props.onStateChange?.({ status, connectionVersion });
+    }, [connectionVersion, props.onStateChange, status]);
 
     const isTermLive = useCallback((term: Terminal | null) => {
       return Boolean(
@@ -100,6 +114,9 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
         },
         focus: () => {
           termRef.current?.focus();
+        },
+        reconnect: () => {
+          handleReset();
         },
       }),
       [handleReconnect, writeSystemMessage],
@@ -199,7 +216,13 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
           );
           pendingResizeRef.current = null;
         } else if (term) {
-          socket.send(JSON.stringify({ type: "resize", cols: term.cols, rows: term.rows }));
+          socket.send(
+            JSON.stringify({
+              type: "resize",
+              cols: term.cols,
+              rows: term.rows,
+            }),
+          );
         }
       };
       const handleMessage = (event: MessageEvent) => {
