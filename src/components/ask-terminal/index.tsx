@@ -5,7 +5,7 @@ import CommandShortcuts from "./command-shortcuts";
 import { XTerm, XTermHandle } from "./xterm";
 import Loader from "./loader";
 
-import theme from "./themes/ayu-dark.json";
+import theme from "./themes/xcode-dark.json";
 
 export interface AskTerminalProps extends React.HTMLAttributes<HTMLDivElement> {}
 

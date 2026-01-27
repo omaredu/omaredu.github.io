@@ -11,7 +11,7 @@ import { FitAddon } from "xterm-addon-fit";
 
 import "xterm/css/xterm.css";
 
-import theme from "./themes/ayu-dark.json";
+import theme from "./themes/xcode-dark.json";
 
 type TerminalStatus = "connecting" | "connected" | "disconnected" | "error";
 
