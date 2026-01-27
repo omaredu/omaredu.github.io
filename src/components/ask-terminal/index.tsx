@@ -16,7 +16,14 @@ type OverlayAction = {
 };
 
 type OverlayConfig = {
-  id: "loading" | "initializing" | "unhealthy" | "welcome" | "reconnect";
+  id:
+    | "loading"
+    | "initializing"
+    | "connecting"
+    | "error"
+    | "unhealthy"
+    | "welcome"
+    | "reconnect";
   icon?: React.ReactNode;
   title: string;
   description?: string;
@@ -100,6 +107,12 @@ const ICONS = {
 const OVERLAY_BASE_CLASS =
   "absolute inset-0 z-20 flex flex-col gap-3 items-center justify-center text-white/70";
 
+const LOADER_OVERLAY_IDS: OverlayConfig["id"][] = [
+  "loading",
+  "initializing",
+  "connecting",
+];
+
 function getOverlay({
   loading,
   healthy,
@@ -135,40 +148,66 @@ function getOverlay({
     };
   }
 
-  if (terminalState?.status !== "disconnected") {
+  if (terminalState.status === "connected") {
     return null;
   }
 
-  if (terminalState.connectionVersion === 0) {
+  if (terminalState.status === "connecting") {
     return {
-      id: "welcome",
-      icon: ICONS.welcome,
-      title: "Welcome to the Ask Terminal!",
-      description:
-        "Explore the terminal by running commands. To get started, press the button below.",
-      action: {
-        label: "Start Terminal",
-        onClick: onReconnect,
-        icon: ICONS.start,
-      },
+      id: "connecting",
+      title: "Connecting to terminal",
     };
   }
 
-  if (terminalState.connectionVersion >= 1) {
+  if (terminalState.status === "error") {
     return {
-      id: "reconnect",
-      icon: ICONS.reconnect,
-      title: "Oops! Connection lost.",
-      description: "Don't worry, you can reconnect to the terminal supafast.",
+      id: "error",
+      icon: ICONS.serviceUnavailable,
+      title: "Terminal hit a snag",
+      description: "Something went wrong while connecting. Try again?",
       action: {
-        label: "Reconnect",
+        label: "Retry",
         onClick: onReconnect,
         icon: ICONS.refresh,
       },
     };
   }
 
-  return null;
+  if (terminalState.status === "disconnected") {
+    if (terminalState.connectionVersion === 0) {
+      return {
+        id: "welcome",
+        icon: ICONS.welcome,
+        title: "Welcome to the Ask Terminal!",
+        description:
+          "Explore the terminal by running commands. To get started, press the button below.",
+        action: {
+          label: "Start Terminal",
+          onClick: onReconnect,
+          icon: ICONS.start,
+        },
+      };
+    }
+
+    if (terminalState.connectionVersion >= 1) {
+      return {
+        id: "reconnect",
+        icon: ICONS.reconnect,
+        title: "Oops! Connection lost.",
+        description: "Don't worry, you can reconnect to the terminal supafast.",
+        action: {
+          label: "Reconnect",
+          onClick: onReconnect,
+          icon: ICONS.refresh,
+        },
+      };
+    }
+  }
+
+  return {
+    id: "initializing",
+    title: "Initializing terminal",
+  };
 }
 
 export default function AskTerminal(props: AskTerminalProps) {
@@ -190,13 +229,7 @@ export default function AskTerminal(props: AskTerminalProps) {
       style={{ backgroundColor: theme.background }}
       className={`relative flex flex-col overflow-hidden md:rounded terminal-container ${props.className}`}
     >
-      {overlay?.id === "loading" && (
-        <div className={OVERLAY_BASE_CLASS}>
-          <Loader />
-          <span className="text-sm">{overlay.title}</span>
-        </div>
-      )}
-      {overlay?.id === "initializing" && (
+      {overlay && LOADER_OVERLAY_IDS.includes(overlay.id) && (
         <div className={OVERLAY_BASE_CLASS}>
           <Loader />
           <span className="text-sm">{overlay.title}</span>
