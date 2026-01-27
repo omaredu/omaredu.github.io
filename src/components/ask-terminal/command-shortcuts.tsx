@@ -170,7 +170,7 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
                 key={shortcut.command}
                 type="button"
                 onClick={() => onCommand?.(shortcut.command)}
-                className="group flex flex-col relative justify-end bg-white rounded ring-1 ring-border/10 w-auto min-w-[200px] max-w-[300px] h-[88px] p-4 pr-6 text-left shadow-sm flex-shrink-0 active:scale-[0.98] transition"
+                className="group flex flex-col relative md:justify-end bg-white rounded ring-1 ring-border/10 w-auto min-w-[200px] max-w-[300px] h-[88px] p-4 pr-6 text-left shadow-sm flex-shrink-0 active:scale-[0.98] transition"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -178,7 +178,7 @@ export default function CommandShortcuts(props: CommandShortcutsProps) {
                   viewBox="0 -960 960 960"
                   width="22px"
                   fill="currentColor"
-                  className="absolute top-3 right-3 text-slate-300 group-hover:text-slate-500 transition"
+                  className="absolute bottom-3 rotate-90 md:rotate-0 md:bottom-auto md:top-3 right-3 text-slate-300 group-hover:text-slate-500 transition"
                 >
                   <path d="M251.77-254.23 210-296l393.62-394H245.77v-60h460v460h-60v-357.85l-394 393.62Z" />
                 </svg>

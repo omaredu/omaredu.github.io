@@ -4,6 +4,7 @@ import { useTerminalServiceHealth } from "./useTerminalServiceHealth";
 import CommandShortcuts from "./command-shortcuts";
 import { XTerm, XTermHandle, XTermState } from "./xterm";
 import Loader from "./loader";
+import { useIsMobile } from "../../hooks/useIsMobile";
 
 import theme from "./themes/xcode-dark.json";
 
@@ -210,6 +211,8 @@ export default function AskTerminal(props: AskTerminalProps) {
   const [terminalState, setTerminalState] = useState<XTermState | null>(null);
   const [hasConnected, setHasConnected] = useState(false);
   const [startRequested, setStartRequested] = useState(false);
+  const isMobile = useIsMobile();
+  const lastAutoAskVersionRef = useRef<number | null>(null);
   useEffect(() => {
     if (terminalState?.status === "connected") {
       setHasConnected(true);
@@ -218,6 +221,16 @@ export default function AskTerminal(props: AskTerminalProps) {
       setStartRequested(false);
     }
   }, [terminalState?.status]);
+  useEffect(() => {
+    if (!isMobile) return;
+    if (terminalState?.status !== "connected") return;
+    if (terminalState.connectionVersion === lastAutoAskVersionRef.current) {
+      return;
+    }
+
+    lastAutoAskVersionRef.current = terminalState.connectionVersion;
+    terminalRef.current?.sendCommand("ask");
+  }, [isMobile, terminalState?.connectionVersion, terminalState?.status]);
   const isConnected =
     status.healthy && !loading && terminalState?.status === "connected";
   const handleStart = () => {
@@ -239,7 +252,7 @@ export default function AskTerminal(props: AskTerminalProps) {
     <section
       {...props}
       style={{ backgroundColor: theme.background }}
-      className={`relative flex flex-col overflow-hidden md:rounded terminal-container ${props.className}`}
+      className={`relative flex flex-col-reverse md:flex-col overflow-hidden md:rounded terminal-container ${props.className}`}
     >
       {overlay && LOADER_OVERLAY_IDS.includes(overlay.id) && (
         <div className={OVERLAY_BASE_CLASS}>
@@ -280,7 +293,7 @@ export default function AskTerminal(props: AskTerminalProps) {
         <XTerm onStateChange={setTerminalState} ref={terminalRef} />
       </div>
       <CommandShortcuts
-        className={`transition duration-500 border-t border-white/20 ${isConnected ? "opacity-100" : "opacity-0"}`}
+        className={`transition duration-500 border-b md:border-t border-white/20 ${isConnected ? "opacity-100" : "opacity-0"}`}
         onCommand={(command) => {
           terminalRef.current?.sendCommand("\x03");
           terminalRef.current?.sendCommand("clear");
