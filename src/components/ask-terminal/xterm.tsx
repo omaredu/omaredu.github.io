@@ -35,6 +35,7 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
     const statusRef = useRef<TerminalStatus>("connecting");
     const reconnectRequestedRef = useRef(false);
     const pendingInputRef = useRef("");
+    const pendingResizeRef = useRef<{ cols: number; rows: number } | null>(null);
     const hasConnectedRef = useRef(false);
     const [terminalReady, setTerminalReady] = useState(false);
     const [connectionVersion, setConnectionVersion] = useState(0);
@@ -54,6 +55,18 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
       },
       [isTermLive],
     );
+
+    const sendResizeMessage = useCallback((cols: number, rows: number) => {
+      const socket = socketRef.current;
+      const payload = JSON.stringify({ type: "resize", cols, rows });
+
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(payload);
+        return;
+      }
+
+      pendingResizeRef.current = { cols, rows };
+    }, []);
 
     const handleReconnect = useCallback(() => {
       setConnectionVersion((version) => version + 1);
@@ -124,6 +137,10 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
       resizeHandlerRef.current = onResize;
       window.addEventListener("resize", onResize);
 
+      const resizeDisposable = term.onResize(({ cols, rows }) => {
+        sendResizeMessage(cols, rows);
+      });
+
       const rafId = requestAnimationFrame(() => {
         if (!isTermLive(term)) return;
         fitRef.current?.fit();
@@ -139,12 +156,13 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
           resizeHandlerRef.current = null;
         }
         cancelAnimationFrame(rafId);
+        resizeDisposable.dispose();
         fit.dispose();
         term.dispose();
         termRef.current = null;
         fitRef.current = null;
       };
-    }, [isTermLive]);
+    }, [isTermLive, sendResizeMessage]);
 
     useEffect(() => {
       const wsUrl = `${import.meta.env.VITE_PUBLIC_TERMINAL_WS_PROTOCOL}://${TERMINAL_BACKEND_HOST}/terminal`;
@@ -169,6 +187,19 @@ export const XTerm = forwardRef<XTermHandle, XTermProps>(
         if (pendingInputRef.current) {
           socket.send(pendingInputRef.current);
           pendingInputRef.current = "";
+        }
+
+        if (pendingResizeRef.current) {
+          socket.send(
+            JSON.stringify({
+              type: "resize",
+              cols: pendingResizeRef.current.cols,
+              rows: pendingResizeRef.current.rows,
+            }),
+          );
+          pendingResizeRef.current = null;
+        } else if (term) {
+          socket.send(JSON.stringify({ type: "resize", cols: term.cols, rows: term.rows }));
         }
       };
       const handleMessage = (event: MessageEvent) => {
