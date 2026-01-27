@@ -256,20 +256,20 @@ export default function AskTerminal(props: AskTerminalProps) {
               <span className="text-sm">{overlay.description}</span>
             )}
           </div>
-          {overlay.action && (
-            <button
-              onClick={overlay.action.onClick}
-              disabled={overlay.action.disabled}
-              aria-busy={overlay.action.loading}
-              className="flex mt-2 items-center text-foreground bg-white pl-3 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition disabled:opacity-70 disabled:cursor-not-allowed"
-            >
-              <span>{overlay.action.label}</span>
-              {overlay.action.loading ? (
-                <Loader size={18} className="text-foreground" />
-              ) : (
-                overlay.action.icon
-              )}
-            </button>
+          {overlay.action?.loading ? (
+            <Loader />
+          ) : (
+            overlay.action && (
+              <button
+                onClick={overlay.action.onClick}
+                disabled={overlay.action.disabled}
+                aria-busy={overlay.action.loading}
+                className="flex mt-2 items-center text-foreground bg-white pl-3 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                <span>{overlay.action.label}</span>
+                {overlay.action.icon}
+              </button>
+            )
           )}
         </div>
       )}
