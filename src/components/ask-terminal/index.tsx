@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useTerminalServiceHealth } from "./useTerminalServiceHealth";
 import CommandShortcuts from "./command-shortcuts";
@@ -13,6 +13,8 @@ type OverlayAction = {
   label: string;
   onClick: () => void;
   icon?: React.ReactNode;
+  loading?: boolean;
+  disabled?: boolean;
 };
 
 type OverlayConfig = {
@@ -118,11 +120,17 @@ function getOverlay({
   healthy,
   terminalState,
   onReconnect,
+  onStart,
+  hasConnected,
+  startRequested,
 }: {
   loading: boolean;
   healthy: boolean;
   terminalState: XTermState | null;
   onReconnect: () => void;
+  onStart: () => void;
+  hasConnected: boolean;
+  startRequested: boolean;
 }): OverlayConfig | null {
   if (loading) {
     return {
@@ -152,13 +160,6 @@ function getOverlay({
     return null;
   }
 
-  if (terminalState.status === "connecting") {
-    return {
-      id: "connecting",
-      title: "Connecting to terminal",
-    };
-  }
-
   if (terminalState.status === "error") {
     return {
       id: "error",
@@ -173,40 +174,33 @@ function getOverlay({
     };
   }
 
-  if (terminalState.status === "disconnected") {
-    if (terminalState.connectionVersion === 0) {
-      return {
-        id: "welcome",
-        icon: ICONS.welcome,
-        title: "Welcome to the Ask Terminal!",
-        description:
-          "Explore the terminal by running commands. To get started, press the button below.",
-        action: {
-          label: "Start Terminal",
-          onClick: onReconnect,
-          icon: ICONS.start,
-        },
-      };
-    }
-
-    if (terminalState.connectionVersion >= 1) {
-      return {
-        id: "reconnect",
-        icon: ICONS.reconnect,
-        title: "Oops! Connection lost.",
-        description: "Don't worry, you can reconnect to the terminal supafast.",
-        action: {
-          label: "Reconnect",
-          onClick: onReconnect,
-          icon: ICONS.refresh,
-        },
-      };
-    }
+  if (!hasConnected) {
+    return {
+      id: "welcome",
+      icon: ICONS.welcome,
+      title: "Welcome to the Ask Terminal!",
+      description:
+        "Explore the terminal by running commands. To get started, press the button below.",
+      action: {
+        label: "Start Terminal",
+        onClick: onStart,
+        icon: ICONS.start,
+        loading: startRequested,
+        disabled: startRequested,
+      },
+    };
   }
 
   return {
-    id: "initializing",
-    title: "Initializing terminal",
+    id: "reconnect",
+    icon: ICONS.reconnect,
+    title: "Oops! Connection lost.",
+    description: "Don't worry, you can reconnect to the terminal supafast.",
+    action: {
+      label: "Reconnect",
+      onClick: onReconnect,
+      icon: ICONS.refresh,
+    },
   };
 }
 
@@ -214,13 +208,31 @@ export default function AskTerminal(props: AskTerminalProps) {
   const { status, loading } = useTerminalServiceHealth();
   const terminalRef = useRef<XTermHandle | null>(null);
   const [terminalState, setTerminalState] = useState<XTermState | null>(null);
+  const [hasConnected, setHasConnected] = useState(false);
+  const [startRequested, setStartRequested] = useState(false);
+  useEffect(() => {
+    if (terminalState?.status === "connected") {
+      setHasConnected(true);
+      setStartRequested(false);
+    } else if (terminalState?.status === "error") {
+      setStartRequested(false);
+    }
+  }, [terminalState?.status]);
   const isConnected =
     status.healthy && !loading && terminalState?.status === "connected";
+  const handleStart = () => {
+    if (startRequested) return;
+    setStartRequested(true);
+    terminalRef.current?.reconnect?.();
+  };
   const overlay = getOverlay({
     loading,
     healthy: status.healthy,
     terminalState,
     onReconnect: () => terminalRef.current?.reconnect?.(),
+    onStart: handleStart,
+    hasConnected,
+    startRequested,
   });
 
   return (
@@ -247,10 +259,16 @@ export default function AskTerminal(props: AskTerminalProps) {
           {overlay.action && (
             <button
               onClick={overlay.action.onClick}
-              className="flex mt-2 items-center text-foreground bg-white pl-3 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition"
+              disabled={overlay.action.disabled}
+              aria-busy={overlay.action.loading}
+              className="flex mt-2 items-center text-foreground bg-white pl-3 p-1 gap-1 rounded-sm font-semibold text-sm active:scale-[0.97] hover:text-foreground/60 transition disabled:opacity-70 disabled:cursor-not-allowed"
             >
               <span>{overlay.action.label}</span>
-              {overlay.action.icon}
+              {overlay.action.loading ? (
+                <Loader size={18} className="text-foreground" />
+              ) : (
+                overlay.action.icon
+              )}
             </button>
           )}
         </div>
