@@ -121,13 +121,6 @@ function App() {
             domain="x.com"
             url="https://x.com/@omaredumx"
           />
-          <SocialCard
-            alt="Dribbble"
-            icon="/social/dribbble.svg"
-            title="@omaredu"
-            domain="dribbble.com"
-            url="https://dribbble.com/omaredu"
-          />
         </div>
 
         <CompanyReel className="mt-3" />
@@ -258,6 +251,12 @@ function App() {
           subtitle="Open-source projects where my contributions shipped, shipped again, and made things better."
         />
         <div className="scrollable flex gap-[15px] overflow-x-auto -mx-[20px] px-[20px] py-[10px]">
+          <AppCard
+            icon="/app/scratch.webp"
+            name="Scratch"
+            description="Minimalist markdown scratchpad. An offline-first alternative to Notion."
+            url="https://www.ericli.io/scratch"
+          />
           <AppCard
             icon="/app/ora.png"
             name="Ora Browser"

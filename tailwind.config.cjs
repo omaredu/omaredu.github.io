@@ -16,7 +16,7 @@ module.exports = {
         DEFAULT: "8px",
       },
       boxShadow: {
-        DEFAULT: "0px 3px 3px rgba(11, 19, 36, 0.03)",
+        DEFAULT: "rgba(0, 0, 0, 0.03) 0px 1px 2px 0px;",
       },
       fontWeight: {
         DEFAULT: "500",

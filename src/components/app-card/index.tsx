@@ -10,7 +10,7 @@ export interface AppCardProps extends React.HTMLAttributes<HTMLDivElement> {
 export default function AppCard(props: AppCardProps) {
   return (
     <a target="_blank" href={props.url}>
-      <Card className="flex flex-col gap-[10px] w-[200px]">
+      <Card className="flex flex-col gap-[20px] w-[200px] h-full justify-between">
         <img
           src={props.icon}
           className="rounded h-[60px] w-[60px] border border-border/10"
