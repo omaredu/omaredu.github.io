@@ -11,7 +11,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       options={{
         cookieless_mode: "always",
         api_host: import.meta.env.VITE_PUBLIC_POSTHOG_HOST,
-        defaults: "2025-05-24",
+        defaults: "2026-01-30",
         capture_exceptions: true, // This enables capturing exceptions using Error Tracking, set to false if you don't want this
         capture_heatmaps: true,
         session_recording: {
