@@ -117,9 +117,9 @@ function App() {
           <SocialCard
             alt="X"
             icon="/social/x.svg"
-            title="@omaredumx"
+            title="@omaredus"
             domain="x.com"
-            url="https://x.com/@omaredumx"
+            url="https://x.com/omaredus"
           />
         </div>
 
