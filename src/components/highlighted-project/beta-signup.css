@@ -14,6 +14,13 @@
   padding-inline: 0;
 }
 
+@media (max-width: 599px) {
+  .beta-submit {
+    width: var(--beta-button-width, 100%);
+    align-self: flex-end;
+  }
+}
+
 @media (hover: hover) and (pointer: fine) {
   .beta-submit:hover:not(:disabled) {
     background-color: #253047;
@@ -30,7 +37,7 @@
 .beta-submit-label {
   grid-area: 1 / 1;
   opacity: 0;
-  transform: translateY(-4px);
+  transform: scale(0.9);
   transition:
     opacity 140ms ease,
     transform 180ms cubic-bezier(0.19, 1, 0.22, 1);
@@ -38,7 +45,7 @@
 
 .beta-submit-label[data-active="true"] {
   opacity: 1;
-  transform: translateY(0);
+  transform: scale(1);
 }
 
 .beta-submit-label[data-active="false"] .beta-request-loader {

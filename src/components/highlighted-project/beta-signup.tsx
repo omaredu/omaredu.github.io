@@ -6,15 +6,19 @@ const buttonLabels = ["Request access", "Requesting…", "Requested"];
 
 export default function BetaSignup() {
   const [email, setEmail] = useState("");
-  const [state, setState] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [state, setState] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
   const submitting = useRef(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const buttonLabel = buttonLabels[state === "submitting" ? 1 : state === "success" ? 2 : 0];
-  const message = state === "success"
-    ? "You’re on the list. I’ll email you when a spot opens."
-    : state === "error"
-      ? "Couldn’t save your request. Please try again shortly."
-      : "Join the beta waitlist. I’ll email you when a spot opens.";
+  const buttonLabel =
+    buttonLabels[state === "submitting" ? 1 : state === "success" ? 2 : 0];
+  const message =
+    state === "success"
+      ? "You’re on the list. I’ll email you when a spot opens."
+      : state === "error"
+        ? "Couldn’t save your request. Please try again shortly."
+        : "Join the beta waitlist. I’ll email you when a spot opens.";
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -51,9 +55,15 @@ export default function BetaSignup() {
   }
 
   return (
-    <form onSubmit={submit} className="mt-[40px] w-full" aria-label="Request Halley beta access">
-      <div className="relative flex overflow-hidden rounded bg-white p-1 transition-[outline-color] duration-150 ease-out outline outline-2 outline-offset-2 outline-transparent focus-within:outline-foreground/30 [&:has(button:focus)]:outline-foreground after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:shadow-[inset_0_0_0_1px_rgba(11,19,36,0.1)] after:content-['']">
-        <label htmlFor="halley-beta-email" className="sr-only">Email address</label>
+    <form
+      onSubmit={submit}
+      className="mt-[40px] w-full"
+      aria-label="Request Halley beta access"
+    >
+      <div className="relative flex flex-col gap-2 min-[600px]:flex-row min-[600px]:gap-0 overflow-hidden rounded bg-white p-1 shadow-[0_1px_2px_0_rgba(0,0,0,0.1)] transition-[outline-color] duration-150 ease-out outline outline-2 outline-offset-2 outline-transparent focus-within:outline-foreground/30 [&:has(button:focus)]:outline-foreground after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:shadow-[inset_0_0_0_1px_rgba(11,19,36,0.05)] after:content-['']">
+        <label htmlFor="halley-beta-email" className="sr-only">
+          Email address
+        </label>
         <input
           id="halley-beta-email"
           name="email"
@@ -83,7 +93,11 @@ export default function BetaSignup() {
         >
           <span className="beta-submit-labels" aria-hidden="true">
             {buttonLabels.map((label) => (
-              <span key={label} className="beta-submit-label" data-active={label === buttonLabel}>
+              <span
+                key={label}
+                className="beta-submit-label"
+                data-active={label === buttonLabel}
+              >
                 {label === "Requested" ? (
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -101,14 +115,23 @@ export default function BetaSignup() {
                   </svg>
                 ) : label === "Requesting…" ? (
                   <Loader size={18} className="beta-request-loader mx-auto" />
-                ) : label}
+                ) : (
+                  label
+                )}
               </span>
             ))}
           </span>
         </button>
       </div>
-      <p id="halley-beta-status" role="status" aria-live="polite" className="mt-2 min-h-[36px] text-left md:text-center text-sm text-foreground/70">
-        <span key={message} className="beta-status-message">{message}</span>
+      <p
+        id="halley-beta-status"
+        role="status"
+        aria-live="polite"
+        className={`mt-2 min-h-[36px] text-left md:text-center text-sm transition-colors duration-150 ${state === "success" || state === "error" ? "text-foreground" : "text-foreground/70"}`}
+      >
+        <span key={message} className="beta-status-message">
+          {message}
+        </span>
       </p>
     </form>
   );
