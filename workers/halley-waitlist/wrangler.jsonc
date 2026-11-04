@@ -1,0 +1,18 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "halley-beta-waitlist",
+  "main": "index.js",
+  "compatibility_date": "2026-11-03",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://omaredu.com,https://www.omaredu.com",
+    "CRAFT_COLLECTION_ID": "BA39E2A5-9C5B-4BD6-9028-F1DBAD855838"
+  },
+  "ratelimits": [{
+    "name": "SIGNUP_LIMITER",
+    "namespace_id": "2026110401",
+    "simple": { "limit": 10, "period": 60 }
+  }],
+  "observability": { "enabled": true, "head_sampling_rate": 1 }
+}

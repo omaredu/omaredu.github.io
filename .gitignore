@@ -2,3 +2,8 @@
 /dist
 .DS_Store
 .env
+.env.local
+**/node_modules/
+**/.wrangler/
+**/.dev.vars
+workers/halley-waitlist/worker-configuration.d.ts
