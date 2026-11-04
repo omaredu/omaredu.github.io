@@ -1,4 +1,4 @@
-import Aurora from "@components/aurora";
+import "./style.css";
 
 export interface HighlightedProjectProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -8,15 +8,7 @@ export default function HighlightedProject(props: HighlightedProjectProps) {
       {...props}
       className={`flex flex-col overflow-hidden items-center relative bg-white h-[620px] min-[600px]:max-lg:h-auto min-[600px]:max-lg:pb-10 lg:h-[680px] ${props.className}`}
     >
-      <div className="absolute inset-0 z-0">
-        <Aurora
-          colorStops={["#FFB459", "#FE7743", "#FFB459"]}
-          direction="bottom"
-          height={0.12}
-          curve={0.65}
-          lightMode
-        />
-      </div>
+      <div aria-hidden="true" className="halley-mesh absolute inset-0 z-0 pointer-events-none" />
       <div className="flex flex-col shrink-0 items-start md:items-center md:max-w-[350px] z-20 px-10 md:px-0 pt-[50px] md:pt-[60px] w-full">
         <img
           className="h-[30px] mb-[40px]"

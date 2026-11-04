@@ -1,0 +1,52 @@
+.halley-mesh {
+  background:
+    radial-gradient(ellipse at 32% 12%, #fff8ec 0%, #fff8ec00 55%),
+    radial-gradient(ellipse at 100% 5%, #ffb459 0%, #ffb45900 52%),
+    radial-gradient(ellipse at 0% 58%, #fe7743 0%, #fe774300 58%),
+    radial-gradient(ellipse at 90% 85%, #ff947c 0%, #ff947c00 55%),
+    linear-gradient(125deg, #ffe8c7 5%, #ffcfaa 48%, #ffb459 100%);
+}
+
+/* Move painted gradient layers without repainting their color stops each frame. */
+@media (prefers-reduced-motion: no-preference) {
+  .halley-mesh::before,
+  .halley-mesh::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .halley-mesh::before {
+    background: inherit;
+    animation: halley-mesh-drift 10s cubic-bezier(0.645, 0.045, 0.355, 1)
+      -3s infinite alternate;
+  }
+
+  .halley-mesh::after {
+    background:
+      radial-gradient(ellipse at 20% 65%, #fe7743cc, #fe774300 50%),
+      radial-gradient(ellipse at 75% 25%, #fff8ec, #fff8ec00 55%);
+    animation: halley-mesh-flow 14s cubic-bezier(0.645, 0.045, 0.355, 1)
+      -7s infinite alternate;
+  }
+}
+
+@keyframes halley-mesh-drift {
+  from {
+    transform: translate(-16%, 8%) scale(1.4);
+  }
+  to {
+    transform: translate(16%, -8%) scale(1.4);
+  }
+}
+
+@keyframes halley-mesh-flow {
+  from {
+    transform: translate(20%, -12%) scale(1.5);
+    opacity: 0.5;
+  }
+  to {
+    transform: translate(-20%, 12%) scale(1.5);
+    opacity: 1;
+  }
+}
