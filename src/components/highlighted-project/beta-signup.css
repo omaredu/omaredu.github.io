@@ -9,14 +9,16 @@
     opacity 150ms ease;
 }
 
-.beta-submit[data-state="success"] {
-  width: var(--beta-button-size);
-  padding-inline: 0;
+@media (min-width: 600px) {
+  .beta-submit[data-state="success"] {
+    width: var(--beta-button-size);
+    padding-inline: 0;
+  }
 }
 
 @media (max-width: 599px) {
   .beta-submit {
-    width: var(--beta-button-width, 100%);
+    width: 100%;
     align-self: flex-end;
   }
 }
