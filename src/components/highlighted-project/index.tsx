@@ -6,7 +6,7 @@ export default function HighlightedProject(props: HighlightedProjectProps) {
   return (
     <section
       {...props}
-      className={`flex flex-col overflow-hidden items-center relative bg-white h-[620px] min-[600px]:max-lg:h-auto min-[600px]:max-lg:pb-10 lg:h-[680px] ${props.className}`}
+      className={`flex flex-col overflow-hidden items-center relative bg-white border-y border-foreground/10 h-[620px] min-[600px]:max-lg:h-auto min-[600px]:max-lg:pb-10 lg:h-[680px] ${props.className}`}
     >
       <div aria-hidden="true" className="halley-mesh absolute inset-0 z-0 pointer-events-none" />
       <div className="flex flex-col shrink-0 items-start md:items-center md:max-w-[350px] z-20 px-10 md:px-0 pt-[50px] md:pt-[60px] w-full">
@@ -15,7 +15,7 @@ export default function HighlightedProject(props: HighlightedProjectProps) {
           src="/halley-dark.svg"
           alt="Halley logo"
         />
-        <label className="text-sm px-[8px] py-[3px] text-foreground bg-foreground/5 rounded-full font-semibold mb-[10px] backdrop-blur-sm">
+        <label className="text-sm px-[8px] py-[3px] text-foreground bg-foreground/5 border border-foreground/10 rounded-sm font-semibold mb-[10px] backdrop-blur-sm">
           Coming soon
         </label>
         <h1 className="text-left md:text-center md:px-0">

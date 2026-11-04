@@ -16,7 +16,7 @@ export default function LatestProject(props: LatestProjectProps) {
           alt="Payway logo white"
         />
         <div className="flex flex-col items-center md:items-start">
-          <label className="text-sm px-[8px] py-[3px] text-white bg-white/20 rounded-full font-semibold mb-[10px]">
+          <label className="text-sm px-[8px] py-[3px] text-white bg-white/20 border border-white/20 rounded-sm font-semibold mb-[10px]">
             Shipped
           </label>
           <h1 className="text-white text-center md:text-left px-[20%] md:px-0">

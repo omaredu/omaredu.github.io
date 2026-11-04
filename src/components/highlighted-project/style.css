@@ -7,6 +7,25 @@
     linear-gradient(125deg, #ffe8c7 5%, #ffcfaa 48%, #ffb459 100%);
 }
 
+/* Keep the color field soft and the stream scale bounded on wide displays. */
+@media (min-width: 1600px) {
+  .halley-mesh {
+    background:
+      radial-gradient(ellipse 900px 500px at 50% 0%, #fff8ec, #fff8ec00 100%),
+      radial-gradient(ellipse 1000px 600px at 70% 80%, #ffb45980, #ffb45900 100%),
+      radial-gradient(ellipse 900px 500px at 30% 65%, #fe774366, #fe774300 100%),
+      #ffead5;
+  }
+
+  .halley-mesh.halley-mesh::before,
+  .halley-mesh.halley-mesh::after {
+    left: calc(50% - 800px);
+    right: auto;
+    width: 1600px;
+    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+  }
+}
+
 /* Move painted gradient layers without repainting their color stops each frame. */
 @media (prefers-reduced-motion: no-preference) {
   .halley-mesh::before,
