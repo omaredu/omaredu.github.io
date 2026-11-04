@@ -145,7 +145,7 @@ function App() {
               type="button"
               aria-label="Scroll portfolio left"
               onClick={() => scrollPortfolio("left")}
-              className="hidden md:flex items-center justify-center absolute -left-[70px] top-1/2 -translate-y-1/2 h-[36px] w-[36px] text-secondary hover:text-foreground transition z-10"
+              className="hidden md:flex items-center justify-center absolute -left-[60px] lg:-left-[70px] top-1/2 -translate-y-1/2 h-[36px] w-[36px] text-secondary hover:text-foreground transition z-10"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -166,7 +166,7 @@ function App() {
               type="button"
               aria-label="Scroll portfolio right"
               onClick={() => scrollPortfolio("right")}
-              className="hidden md:flex items-center justify-center absolute -right-[70px] top-1/2 -translate-y-1/2 h-[36px] w-[36px] text-secondary hover:text-foreground transition z-10"
+              className="hidden md:flex items-center justify-center absolute -right-[60px] lg:-right-[70px] top-1/2 -translate-y-1/2 h-[36px] w-[36px] text-secondary hover:text-foreground transition z-10"
             >
               <svg
                 viewBox="0 0 24 24"

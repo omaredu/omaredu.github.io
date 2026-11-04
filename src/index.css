@@ -12,6 +12,7 @@
 
   font-family: "Raleway", sans-serif;
   scroll-behavior: smooth;
+  overflow-x: clip;
   @apply px-[20px] md:px-0 text-foreground;
 }
 
