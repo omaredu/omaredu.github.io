@@ -24,9 +24,11 @@ export default function BetaSignup() {
     event.preventDefault();
     if (submitting.current) return;
     if (buttonRef.current) {
-      const { width, height } = buttonRef.current.getBoundingClientRect();
-      buttonRef.current.style.setProperty("--beta-button-width", `${width}px`);
-      buttonRef.current.style.setProperty("--beta-button-size", `${height}px`);
+      // Layout dimensions exclude the active press transform, so retries cannot
+      // repeatedly capture and lock in a scaled-down button size.
+      const { width, height } = getComputedStyle(buttonRef.current);
+      buttonRef.current.style.setProperty("--beta-button-width", width);
+      buttonRef.current.style.setProperty("--beta-button-size", height);
     }
     submitting.current = true;
     setState("submitting");
@@ -60,7 +62,7 @@ export default function BetaSignup() {
       className="mt-[40px] w-full"
       aria-label="Request Halley beta access"
     >
-      <div className="relative flex flex-col gap-2 min-[600px]:flex-row min-[600px]:gap-0 overflow-hidden rounded bg-white p-1 shadow-[0_1px_2px_0_rgba(0,0,0,0.1)] transition-[outline-color] duration-150 ease-out outline outline-2 outline-offset-2 outline-transparent focus-within:outline-foreground/30 [&:has(button:focus)]:outline-foreground after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:shadow-[inset_0_0_0_1px_rgba(11,19,36,0.05)] after:content-['']">
+      <div className="relative flex flex-col gap-2 min-[600px]:flex-row min-[600px]:gap-0 overflow-hidden rounded bg-white p-1 [filter:drop-shadow(0_0_1px_rgba(11,19,36,0.25))_drop-shadow(0_24px_48px_rgba(11,19,36,0.18))] transition-[outline-color] duration-150 ease-out outline outline-2 outline-offset-2 outline-transparent focus-within:outline-foreground/30 [&:has(button:focus)]:outline-foreground">
         <label htmlFor="halley-beta-email" className="sr-only">
           Email address
         </label>
